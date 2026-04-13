@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700&family=DM+Sans:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --surface-primary: #FFFFFF;
+    --surface-secondary: #F5F7FA;
+    --surface-tertiary: #EEF1F5;
+    --text-primary: #0D0D0D;
+    --text-secondary: #6B7280;
+    --border-default: rgba(0, 0, 0, 0.08);
+    --border-emphasis: rgba(0, 0, 0, 0.18);
+  }
+
+  .dark {
+    --surface-primary: #0D1117;
+    --surface-secondary: #161B22;
+    --surface-tertiary: #21262D;
+    --text-primary: #F0F6FC;
+    --text-secondary: #8B949E;
+    --border-default: rgba(255, 255, 255, 0.08);
+    --border-emphasis: rgba(255, 255, 255, 0.18);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--surface-tertiary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .surface-primary { background-color: var(--surface-primary); }
+  .surface-secondary { background-color: var(--surface-secondary); }
+  .surface-tertiary { background-color: var(--surface-tertiary); }
+  .text-primary-ds { color: var(--text-primary); }
+  .text-secondary-ds { color: var(--text-secondary); }
+  .border-default-ds { border-color: var(--border-default); }
+  .border-emphasis-ds { border-color: var(--border-emphasis); }
+  .label-upper {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
