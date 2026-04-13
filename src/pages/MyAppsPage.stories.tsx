@@ -96,14 +96,14 @@ function AppCard({ selected = false }: { selected?: boolean }) {
           (e.target as HTMLImageElement).style.display = 'none'
         }}
       />
-      <div className="flex flex-col gap-[2px] min-w-0">
+      <div className="flex flex-col gap-1 min-w-0">
         <span className="font-sans text-[13px] font-medium text-primary-ds truncate">
           Globoplay: BBB, Brasileiro
         </span>
         <span className="font-sans text-[12px] text-secondary-ds truncate">
           GLOBO COM. E PART. S/A
         </span>
-        <Badge variant="purple" className="self-start mt-[2px]">Apple Store</Badge>
+        <Badge variant="purple" className="self-start mt-1">Apple Store</Badge>
       </div>
     </div>
   )
@@ -111,7 +111,7 @@ function AppCard({ selected = false }: { selected?: boolean }) {
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="font-display text-[18px] font-semibold text-primary-ds">{children}</h2>
+    <h2 className="font-sans text-[18px] font-medium text-primary-ds">{children}</h2>
   )
 }
 
@@ -131,7 +131,7 @@ function MetricStat({
   const c = colorMap[variant]
   return (
     <div
-      className="flex items-center gap-3 px-4 py-2 rounded-lg border"
+      className="flex items-center gap-3 px-4 py-3 rounded-lg border"
       style={{ backgroundColor: c.bg, borderColor: c.border }}
     >
       <span className="font-sans text-[13px] text-secondary-ds">{label}</span>
@@ -166,9 +166,9 @@ function MyAppsPage() {
       <main className="flex-1 overflow-y-auto">
         {/* ── Page header ── */}
         <div className="surface-primary border-b border-[0.5px] border-[var(--border-default)] px-6 py-4">
-          <div className="flex items-start justify-between mb-4">
+          <div className="flex items-start justify-between mb-5">
             <div>
-              <h1 className="font-display text-[22px] font-bold text-primary-ds">My Apps</h1>
+              <h1 className="font-display text-[22px] font-semibold text-primary-ds">My Apps</h1>
               <p className="font-sans text-[13px] text-secondary-ds mt-1">
                 Select the main app. You can also add new apps or delete them.
               </p>
@@ -177,7 +177,7 @@ function MyAppsPage() {
           </div>
 
           {/* App selector */}
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center gap-3 mb-5">
             <Input type="search" placeholder="Search app by name..." className="w-56" />
             <div className="flex gap-2">
               <Button variant="ghost" size="sm">🍎 Apple Store</Button>
@@ -212,7 +212,7 @@ function MyAppsPage() {
           </div>
 
           {/* ── My Keywords ── */}
-          <div className="surface-primary rounded-lg border border-[0.5px] border-[var(--border-default)] p-5 flex flex-col gap-4">
+          <div className="surface-primary rounded-lg border border-[0.5px] border-[var(--border-default)] p-5 flex flex-col gap-5">
             <SectionTitle>My Keywords</SectionTitle>
 
             <Tabs value={keywordsTab} onValueChange={setKeywordsTab}>
@@ -266,7 +266,7 @@ function MyAppsPage() {
                 </ResponsiveContainer>
 
                 {/* Keyword stats */}
-                <div className="grid grid-cols-4 gap-3 mt-4">
+                <div className="grid grid-cols-4 gap-[10px] mt-5">
                   <MetricStat label="Growing Keywords" value={17} variant="blue" />
                   <MetricStat label="Dropping Keywords" value={15} variant="orange" />
                   <MetricStat label="Stable Keywords" value={28} variant="green" />
@@ -281,7 +281,7 @@ function MyAppsPage() {
           </div>
 
           {/* ── Metadata ── */}
-          <div className="surface-primary rounded-lg border border-[0.5px] border-[var(--border-default)] p-5 flex flex-col gap-4">
+          <div className="surface-primary rounded-lg border border-[0.5px] border-[var(--border-default)] p-5 flex flex-col gap-5">
             <div className="flex items-center justify-between">
               <SectionTitle>Metadata</SectionTitle>
               <Button variant="ghost" size="sm">Show All</Button>
@@ -351,7 +351,7 @@ function MyAppsPage() {
           </div>
 
           {/* ── App Version | What's New ── */}
-          <div className="surface-primary rounded-lg border border-[0.5px] border-[var(--border-default)] p-5 flex flex-col gap-4">
+          <div className="surface-primary rounded-lg border border-[0.5px] border-[var(--border-default)] p-5 flex flex-col gap-5">
             <SectionTitle>App Version | What's New</SectionTitle>
             <div className="flex gap-4">
               <div className="flex-1 border border-[var(--border-emphasis)] rounded-md p-4">
@@ -365,9 +365,9 @@ function MyAppsPage() {
           </div>
 
           {/* ── App Details ── */}
-          <div className="surface-primary rounded-lg border border-[0.5px] border-[var(--border-default)] p-5 flex flex-col gap-4">
+          <div className="surface-primary rounded-lg border border-[0.5px] border-[var(--border-default)] p-5 flex flex-col gap-5">
             <SectionTitle>App Details</SectionTitle>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-[10px]">
               <MetricCard label="App Size" value="296.39 MB" />
               <MetricCard label="Pricing" value="Free" />
               <MetricCard label="Content Rating" value="+12" />
@@ -375,7 +375,7 @@ function MyAppsPage() {
           </div>
 
           {/* ── Ratings & Reviews ── */}
-          <div className="surface-primary rounded-lg border border-[0.5px] border-[var(--border-default)] p-5 flex flex-col gap-4">
+          <div className="surface-primary rounded-lg border border-[0.5px] border-[var(--border-default)] p-5 flex flex-col gap-5">
             <SectionTitle>My Apps on App Store</SectionTitle>
 
             <Tabs value={ratingsTab} onValueChange={setRatingsTab}>
@@ -385,7 +385,7 @@ function MyAppsPage() {
               </TabsList>
 
               <TabsContent value="ratings" className="pt-4 flex flex-col gap-4">
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-[10px]">
                   <MetricCard label="Ratings Total" value="457,396" delta={12} deltaLabel="+12%" />
                   <MetricCard label="App Store Ratings" value="4.55 ★" />
                   <MetricCard label="Ratings Average: 7 Days" value="4.55 ★" />
@@ -433,10 +433,10 @@ function MyAppsPage() {
           </div>
 
           {/* ── Category ── */}
-          <div className="surface-primary rounded-lg border border-[0.5px] border-[var(--border-default)] p-5 flex flex-col gap-4">
+          <div className="surface-primary rounded-lg border border-[0.5px] border-[var(--border-default)] p-5 flex flex-col gap-5">
             <SectionTitle>Category</SectionTitle>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-[10px]">
               <MetricCard label="Category" value="Entretenimento" />
               <MetricCard label="Current Position" value="7" delta={-2} deltaLabel="-2 pos" />
               <MetricCard label="Position Average: 7 Days" value="6" />
