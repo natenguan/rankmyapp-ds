@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react'
+import { ChevronLeft, ChevronRight, CalendarDays, MoreHorizontal, Edit, Trash2, Download, Copy, EyeOff } from 'lucide-react'
 import { Button } from '../components/ui/Button/Button'
 import { Badge } from '../components/ui/Badge/Badge'
 import { Input } from '../components/ui/Input/Input'
@@ -12,6 +12,9 @@ import { Tabs, TabsList, TabsTrigger, TabsContent, PillGroup } from '../componen
 import { DataTable } from '../components/ui/DataTable/DataTable'
 import type { Column } from '../components/ui/DataTable/DataTable'
 import { Sidebar } from '../components/ui/Sidebar/Sidebar'
+import { Modal } from '../components/ui/Modal/Modal'
+import { Tooltip } from '../components/ui/Tooltip/Tooltip'
+import { DropdownMenu } from '../components/ui/DropdownMenu/DropdownMenu'
 import { colors } from '../tokens/colors'
 
 const meta: Meta = {
@@ -150,6 +153,39 @@ function DateRangePicker({ defaultOpen = false }: { defaultOpen?: boolean }) {
   )
 }
 
+/* ── Modal preview helper ───────────────────────────────────── */
+
+function ModalPreview(props: {
+  title?: string
+  description?: string
+  confirmLabel?: string
+  cancelLabel?: string
+  variant?: 'default' | 'danger'
+  withForm?: boolean
+}) {
+  const [open, setOpen] = useState(false)
+  return (
+    <>
+      <Button size="sm" variant={props.variant === 'danger' ? 'destructive' : 'ghost'} onClick={() => setOpen(true)}>
+        Abrir modal
+      </Button>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        onConfirm={() => setOpen(false)}
+        {...props}
+      >
+        {props.withForm && (
+          <div className="flex flex-col gap-3 mt-1">
+            <Input label="Keyword" placeholder="ex: globoplay" />
+            <Input label="Categoria" placeholder="ex: Entretenimento" />
+          </div>
+        )}
+      </Modal>
+    </>
+  )
+}
+
 /* ── Section wrapper ────────────────────────────────────────── */
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -260,7 +296,7 @@ function OverviewDemo() {
 
           {/* DS summary stats */}
           <div className="grid grid-cols-4 gap-[10px] mt-5">
-            <MetricCard label="Componentes" value="10" delta={2} deltaLabel="+2 este mês" />
+            <MetricCard label="Componentes" value="13" delta={3} deltaLabel="+3 hoje" />
             <MetricCard label="Tokens de cor" value="22" />
             <MetricCard label="Pages no Storybook" value="3" delta={1} deltaLabel="+1 esta semana" />
             <MetricCard label="Chromatic Builds" value="7" delta={7} deltaLabel="todos aprovados" />
@@ -528,6 +564,107 @@ function OverviewDemo() {
               <div className="relative h-[380px]">
                 <DateRangePicker defaultOpen />
               </div>
+            </div>
+          </div>
+        </Section>
+
+        {/* ── Modal ── */}
+        <Section title="Modal">
+          <div className="flex flex-col gap-5">
+            <div>
+              <span className="font-sans text-[12px] mb-3 block" style={{ color: 'var(--text-secondary)' }}>Default — confirmação</span>
+              <ModalPreview
+                title="Confirmar ação"
+                description="Tem certeza que deseja continuar com esta operação?"
+                confirmLabel="Confirmar"
+                cancelLabel="Cancelar"
+              />
+            </div>
+            <div>
+              <span className="font-sans text-[12px] mb-3 block" style={{ color: 'var(--text-secondary)' }}>Danger — ação destrutiva</span>
+              <ModalPreview
+                variant="danger"
+                title="Deletar keyword"
+                description="Esta ação não pode ser desfeita. A keyword será removida permanentemente."
+                confirmLabel="Deletar"
+                cancelLabel="Cancelar"
+              />
+            </div>
+            <div>
+              <span className="font-sans text-[12px] mb-3 block" style={{ color: 'var(--text-secondary)' }}>With Form</span>
+              <ModalPreview
+                title="Adicionar Keyword"
+                description="Insira uma nova keyword para começar a monitorar."
+                confirmLabel="Adicionar"
+                cancelLabel="Cancelar"
+                withForm
+              />
+            </div>
+          </div>
+        </Section>
+
+        {/* ── Tooltip ── */}
+        <Section title="Tooltip">
+          <div className="flex flex-col gap-4">
+            <div>
+              <span className="font-sans text-[12px] mb-3 block" style={{ color: 'var(--text-secondary)' }}>Posições</span>
+              <div className="flex items-center gap-8 py-4">
+                {(['top', 'bottom', 'left', 'right'] as const).map(side => (
+                  <Tooltip key={side} content={`Tooltip ${side}`} side={side}>
+                    <Button variant="ghost" size="sm">{side}</Button>
+                  </Tooltip>
+                ))}
+              </div>
+            </div>
+            <div>
+              <span className="font-sans text-[12px] mb-3 block" style={{ color: 'var(--text-secondary)' }}>Em badges e textos</span>
+              <div className="flex items-center gap-4 py-2">
+                <Tooltip content="Keywords crescendo de posição">
+                  <Badge status="growing">Growing · 17</Badge>
+                </Tooltip>
+                <Tooltip content="Keywords perdendo posição">
+                  <Badge status="dropping">Dropping · 4</Badge>
+                </Tooltip>
+                <Tooltip content="Quantidade total de buscas mensais para esta keyword">
+                  <span className="font-sans text-[13px] underline decoration-dashed cursor-help" style={{ color: 'var(--text-secondary)' }}>
+                    Search Volume ?
+                  </span>
+                </Tooltip>
+              </div>
+            </div>
+          </div>
+        </Section>
+
+        {/* ── Dropdown Menu ── */}
+        <Section title="Dropdown Menu">
+          <div className="flex flex-col gap-5">
+            <div>
+              <span className="font-sans text-[12px] mb-3 block" style={{ color: 'var(--text-secondary)' }}>Com ícones e item destrutivo</span>
+              <DropdownMenu
+                trigger={
+                  <Button variant="ghost" size="sm">
+                    <MoreHorizontal size={16} /> Ações
+                  </Button>
+                }
+                items={[
+                  { label: 'Editar', icon: <Edit size={14} /> },
+                  { label: 'Duplicar', icon: <Copy size={14} /> },
+                  { label: 'Exportar', icon: <Download size={14} /> },
+                  { label: 'Ocultar', icon: <EyeOff size={14} />, dividerBefore: true },
+                  { label: 'Deletar', icon: <Trash2 size={14} />, variant: 'destructive', dividerBefore: true },
+                ]}
+              />
+            </div>
+            <div>
+              <span className="font-sans text-[12px] mb-3 block" style={{ color: 'var(--text-secondary)' }}>Com item desabilitado</span>
+              <DropdownMenu
+                trigger={<Button variant="ghost" size="sm">Opções ▾</Button>}
+                items={[
+                  { label: 'Salvar alterações', icon: <Edit size={14} /> },
+                  { label: 'Exportar (indisponível)', icon: <Download size={14} />, disabled: true },
+                  { label: 'Deletar', icon: <Trash2 size={14} />, variant: 'destructive', dividerBefore: true },
+                ]}
+              />
             </div>
           </div>
         </Section>

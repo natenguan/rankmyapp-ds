@@ -26,3 +26,12 @@ export type { DataTableProps, Column } from './DataTable/DataTable'
 
 export { Sidebar } from './Sidebar/Sidebar'
 export type { SidebarProps, NavGroup, NavItem } from './Sidebar/Sidebar'
+
+export { Modal } from './Modal/Modal'
+export type { ModalProps } from './Modal/Modal'
+
+export { Tooltip } from './Tooltip/Tooltip'
+export type { TooltipProps } from './Tooltip/Tooltip'
+
+export { DropdownMenu } from './DropdownMenu/DropdownMenu'
+export type { DropdownMenuProps, DropdownItem } from './DropdownMenu/DropdownMenu'
