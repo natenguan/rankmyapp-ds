@@ -28,10 +28,10 @@ function Alert({ className, variant, title, children, ...props }: AlertProps) {
   return (
     <div className={cn(alertVariants({ variant }), className)} {...props}>
       {title && (
-        <p className="font-sans text-[13px] font-medium mb-1 text-primary-ds">{title}</p>
+        <p className="font-sans text-[13px] font-medium mb-1" style={{ color: 'var(--text-primary)' }}>{title}</p>
       )}
       {children && (
-        <p className="font-sans text-[13px] font-normal text-secondary-ds">{children}</p>
+        <p className="font-sans text-[13px] font-normal" style={{ color: 'var(--text-secondary)' }}>{children}</p>
       )}
     </div>
   )
