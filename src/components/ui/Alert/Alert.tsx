@@ -6,10 +6,10 @@ const alertVariants = cva(
   {
     variants: {
       variant: {
-        info: 'bg-[rgba(26,136,255,0.08)] border-l-[#1A88FF] text-[#1A88FF]',
-        success: 'bg-[rgba(7,198,195,0.08)] border-l-[#07C6C3] text-[#07C6C3]',
-        warning: 'bg-[rgba(255,87,0,0.08)] border-l-[#FF5700] text-[#FF5700]',
-        danger: 'bg-[rgba(226,75,74,0.08)] border-l-[#E24B4A] text-[#E24B4A]',
+        info: 'bg-[rgba(26,136,255,0.08)] border-l-[#1A88FF]',
+        success: 'bg-[rgba(7,198,195,0.08)] border-l-[#07C6C3]',
+        warning: 'bg-[rgba(255,87,0,0.08)] border-l-[#FF5700]',
+        danger: 'bg-[rgba(226,75,74,0.08)] border-l-[#E24B4A]',
       },
     },
     defaultVariants: {
@@ -28,10 +28,10 @@ function Alert({ className, variant, title, children, ...props }: AlertProps) {
   return (
     <div className={cn(alertVariants({ variant }), className)} {...props}>
       {title && (
-        <p className="font-sans text-[13px] font-medium mb-1">{title}</p>
+        <p className="font-sans text-[13px] font-medium mb-1 text-primary-ds">{title}</p>
       )}
       {children && (
-        <p className="font-sans text-[13px] font-normal opacity-90">{children}</p>
+        <p className="font-sans text-[13px] font-normal text-secondary-ds">{children}</p>
       )}
     </div>
   )
