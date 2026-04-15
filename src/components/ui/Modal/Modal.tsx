@@ -55,9 +55,10 @@ function Modal({
       <div
         className={cn(
           'relative w-full surface-primary rounded-xl shadow-xl border border-[0.5px] border-[var(--border-default)] overflow-hidden',
-          'flex flex-col mx-4',
+          'flex flex-col',
           sizeMap[size]
         )}
+        style={{ margin: '0 24px' }}
         role="dialog"
         aria-modal="true"
       >
@@ -92,7 +93,10 @@ function Modal({
 
         {/* Footer */}
         {onConfirm && (
-          <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[0.5px] border-[var(--border-default)]">
+          <div
+            className="flex items-center justify-end border-t border-[0.5px] border-[var(--border-default)]"
+            style={{ gap: '12px', padding: '16px 24px' }}
+          >
             <Button variant="ghost" size="sm" onClick={onClose}>
               {cancelLabel}
             </Button>

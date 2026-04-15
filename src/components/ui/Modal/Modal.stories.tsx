@@ -7,7 +7,7 @@ import { Input } from '../Input/Input'
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
   component: Modal,
-  parameters: { layout: 'centered' },
+  parameters: { layout: 'fullscreen' },
 }
 
 export default meta
