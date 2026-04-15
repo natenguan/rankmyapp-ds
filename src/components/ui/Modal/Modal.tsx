@@ -54,7 +54,7 @@ function Modal({
       {/* Dialog */}
       <div
         className={cn(
-          'relative w-full surface-primary rounded-xl shadow-xl border border-[0.5px] border-[var(--border-default)]',
+          'relative w-full surface-primary rounded-xl shadow-xl border border-[0.5px] border-[var(--border-default)] overflow-hidden',
           'flex flex-col mx-4',
           sizeMap[size]
         )}
@@ -92,7 +92,7 @@ function Modal({
 
         {/* Footer */}
         {onConfirm && (
-          <div className="flex items-center justify-end gap-2 px-6 pb-6 pt-2">
+          <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[0.5px] border-[var(--border-default)]">
             <Button variant="ghost" size="sm" onClick={onClose}>
               {cancelLabel}
             </Button>
