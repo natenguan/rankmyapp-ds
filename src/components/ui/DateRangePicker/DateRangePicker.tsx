@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react'
 import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react'
 
 /* ── Types ─────────────────────────────────────────────────────── */
@@ -12,7 +12,7 @@ export interface DateRangePickerProps {
   value?: DateRange
   onChange?: (range: DateRange) => void
   placeholder?: string
-  align?: 'left' | 'right'
+  align?: 'left' | 'right' | 'center'
 }
 
 /* ── Helpers ───────────────────────────────────────────────────── */
@@ -328,9 +328,27 @@ export function DateRangePicker({
   const [activePreset, setActivePreset] = useState<string | null>(null)
   const [startText, setStartText] = useState(() => pendingStart ? formatInput(pendingStart) : '')
   const [endText, setEndText] = useState(() => pendingEnd ? formatInput(pendingEnd) : '')
+  const [centerLeft, setCenterLeft] = useState<number | null>(null)
   const ref = useRef<HTMLDivElement>(null)
 
   const rightMonth = rightViewMonth
+
+  // For align="center": calculate the clamped left offset so the panel is
+  // centered under the trigger without overflowing the viewport.
+  useLayoutEffect(() => {
+    if (!open || align !== 'center' || !ref.current) { setCenterLeft(null); return }
+    const rect = ref.current.getBoundingClientRect()
+    const panelWidth = 700
+    const margin = 8
+    // Center of trigger relative to the wrapper's own left edge
+    const triggerCenter = rect.width / 2
+    // Ideal panel left (relative to wrapper): center trigger under panel center
+    let left = triggerCenter - panelWidth / 2
+    // Convert to viewport coords to clamp, then back to wrapper-relative
+    const viewportLeft = rect.left + left
+    const clampedViewportLeft = Math.max(margin, Math.min(viewportLeft, window.innerWidth - panelWidth - margin))
+    setCenterLeft(clampedViewportLeft - rect.left)
+  }, [open, align])
 
   // Keep text inputs in sync when dates change via calendar clicks or presets
   useEffect(() => {
@@ -486,14 +504,18 @@ export function DateRangePicker({
       </button>
 
       {/* Panel — position:absolute inside the trigger wrapper.
-           align="left"  → left edge of panel aligns with left edge of trigger.
-           align="right" → right edge of panel aligns with right edge of trigger
-                          (panel extends leftward, never goes off-screen to the right). */}
-      {open && (
+           left  → left edge of panel = left edge of trigger
+           right → right edge of panel = right edge of trigger (extends leftward)
+           center → panel is centered under the trigger, clamped to viewport */}
+      {open && (align !== 'center' || centerLeft !== null) && (
         <div style={{
           position: 'absolute',
           top: 'calc(100% + 6px)',
-          ...(align === 'right' ? { right: 0 } : { left: 0 }),
+          ...(align === 'right'
+            ? { right: 0 }
+            : align === 'center'
+            ? { left: centerLeft! }
+            : { left: 0 }),
           zIndex: 9999,
           background: 'var(--surface-primary)',
           border: '0.5px solid var(--border-default)',

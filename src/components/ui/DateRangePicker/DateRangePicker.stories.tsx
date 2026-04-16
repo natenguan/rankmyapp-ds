@@ -136,3 +136,17 @@ export const AlignRight: Story = {
     </div>
   ),
 }
+
+/* ── Align center ─────────────────────────────────────────────────── */
+
+export const AlignCenter: Story = {
+  render: () => (
+    <div style={{ display: 'flex', justifyContent: 'center', minHeight: 480 }}>
+      <DateRangePicker
+        value={{ start: new Date(2026, 2, 1), end: new Date(2026, 2, 31) }}
+        onChange={() => {}}
+        align="center"
+      />
+    </div>
+  ),
+}
