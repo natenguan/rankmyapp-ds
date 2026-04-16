@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react'
 
 /* ── Types ─────────────────────────────────────────────────────── */
@@ -328,23 +329,22 @@ export function DateRangePicker({
   const [activePreset, setActivePreset] = useState<string | null>(null)
   const [startText, setStartText] = useState(() => pendingStart ? formatInput(pendingStart) : '')
   const [endText, setEndText] = useState(() => pendingEnd ? formatInput(pendingEnd) : '')
-  const [panelPos, setPanelPos] = useState({ top: 0, left: 0 })
+  const [panelPos, setPanelPos] = useState<{ top: number; left: number } | null>(null)
   const ref = useRef<HTMLDivElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
 
   const rightMonth = rightViewMonth
 
-  // Calculate panel position using fixed coordinates to avoid viewport overflow
+  // Calculate panel position — runs synchronously before paint
   useLayoutEffect(() => {
-    if (!open || !ref.current) return
+    if (!open) { setPanelPos(null); return }
+    if (!ref.current) return
     const rect = ref.current.getBoundingClientRect()
-    const panelWidth = 700 // slightly wider than actual panel (~680px)
+    const panelWidth = 700
     const margin = 8
     const viewportWidth = window.innerWidth
-
     let left = align === 'right' ? rect.right - panelWidth : rect.left
-    // Clamp so panel never escapes viewport edges
     left = Math.max(margin, Math.min(left, viewportWidth - panelWidth - margin))
-
     setPanelPos({ top: rect.bottom + 6, left })
   }, [open, align])
 
@@ -359,7 +359,10 @@ export function DateRangePicker({
 
   useEffect(() => {
     const h = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+      const target = e.target as Node
+      const inTrigger = ref.current?.contains(target)
+      const inPanel = panelRef.current?.contains(target)
+      if (!inTrigger && !inPanel) setOpen(false)
     }
     document.addEventListener('mousedown', h)
     return () => document.removeEventListener('mousedown', h)
@@ -501,13 +504,13 @@ export function DateRangePicker({
         {triggerText}
       </button>
 
-      {/* Panel — fixed so it never overflows viewport regardless of trigger position */}
-      {open && (
-        <div style={{
+      {/* Panel — rendered via portal at document.body so no parent CSS can clip it */}
+      {open && panelPos && createPortal(
+        <div ref={panelRef} style={{
           position: 'fixed',
           top: panelPos.top,
           left: panelPos.left,
-          zIndex: 300,
+          zIndex: 9999,
           background: 'var(--surface-primary)',
           border: '0.5px solid var(--border-default)',
           borderRadius: 12,
@@ -673,7 +676,8 @@ export function DateRangePicker({
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   )
