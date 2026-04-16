@@ -8,7 +8,7 @@ import {
 import { Button } from '../components/ui/Button/Button'
 import { Badge } from '../components/ui/Badge/Badge'
 import { Input } from '../components/ui/Input/Input'
-import { MetricCard } from '../components/ui/Card/Card'
+import { MetricCard } from '../components/ui/MetricCard/MetricCard'
 import { Tabs, TabsList, TabsTrigger, TabsContent, PillGroup } from '../components/ui/Tabs/Tabs'
 import { Sidebar } from '../components/ui/Sidebar/Sidebar'
 

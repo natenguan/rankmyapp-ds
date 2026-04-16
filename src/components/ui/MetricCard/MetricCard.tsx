@@ -4,11 +4,13 @@ import { Skeleton } from '../Skeleton/Skeleton'
 export interface MetricCardProps {
   label: string
   value: string | number
-  delta?: string
+  delta?: string | number
+  deltaLabel?: string
   deltaType?: 'positive' | 'negative' | 'neutral'
   variant?: 'default' | 'growing' | 'dropping' | 'stable'
   size?: 'sm' | 'md'
   loading?: boolean
+  className?: string
 }
 
 const valueColors: Record<string, string> = {
@@ -34,11 +36,23 @@ export function MetricCard({
   label,
   value,
   delta,
-  deltaType = 'neutral',
+  deltaLabel,
+  deltaType,
   variant = 'default',
   size = 'md',
   loading = false,
+  className,
 }: MetricCardProps) {
+  // Resolve display text: prefer deltaLabel, then stringify delta
+  const deltaText = deltaLabel ?? (delta !== undefined ? String(delta) : undefined)
+
+  // Auto-detect deltaType from numeric delta if not explicitly set
+  const resolvedDeltaType: 'positive' | 'negative' | 'neutral' =
+    deltaType ??
+    (typeof delta === 'number'
+      ? delta > 0 ? 'positive' : delta < 0 ? 'negative' : 'neutral'
+      : 'neutral'
+    )
   const valueFontSize = size === 'md' ? 24 : 18
 
   return (
@@ -84,7 +98,7 @@ export function MetricCard({
           </span>
 
           {/* Delta */}
-          {delta !== undefined && (
+          {deltaText !== undefined && (
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -92,10 +106,10 @@ export function MetricCard({
               marginTop: 4,
               fontFamily: 'DM Sans, sans-serif',
               fontSize: 12,
-              color: deltaColors[deltaType],
+              color: deltaColors[resolvedDeltaType],
             }}>
-              <span style={{ fontSize: 10 }}>{deltaIcons[deltaType]}</span>
-              <span>{delta}</span>
+              <span style={{ fontSize: 10 }}>{deltaIcons[resolvedDeltaType]}</span>
+              <span>{deltaText}</span>
             </div>
           )}
         </>
