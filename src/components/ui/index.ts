@@ -106,3 +106,18 @@ export { UserMenu } from './UserMenu/UserMenu'
 export type { UserMenuProps } from './UserMenu/UserMenu'
 
 export { AreaChart } from './Chart/AreaChart'
+
+export { SortableColumnHeader } from './SortableColumnHeader/SortableColumnHeader'
+export type { SortableColumnHeaderProps, SortDirection } from './SortableColumnHeader/SortableColumnHeader'
+
+export { Divider } from './Divider/Divider'
+export type { DividerProps, DividerOrientation, DividerVariant } from './Divider/Divider'
+
+export { StepIndicator } from './StepIndicator/StepIndicator'
+export type { StepIndicatorProps, Step, StepStatus } from './StepIndicator/StepIndicator'
+
+export { AccountSwitcher } from './AccountSwitcher/AccountSwitcher'
+export type { AccountSwitcherProps, Account } from './AccountSwitcher/AccountSwitcher'
+
+export { Command } from './Command/Command'
+export type { CommandProps, CommandItem } from './Command/Command'
