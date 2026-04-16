@@ -1,10 +1,7 @@
 import { useEffect } from 'react'
 import { X } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { Button } from '../Button/Button'
 
-export interface ModalProps {
-  open: boolean
+export interface ModalDialogProps {
   onClose: () => void
   title?: string
   description?: string
@@ -16,17 +13,17 @@ export interface ModalProps {
   onConfirm?: () => void
 }
 
+export interface ModalProps extends ModalDialogProps {
+  open: boolean
+}
+
 const sizeMap = {
-  sm: '480px',
-  md: '560px',
-  lg: '720px',
+  sm: 480,
+  md: 560,
+  lg: 720,
 }
 
 /* ── ModalDialog — caixa interna reutilizável ───────────────── */
-
-export interface ModalDialogProps extends Omit<ModalProps, 'open'> {
-  onClose: () => void
-}
 
 export function ModalDialog({
   onClose,
@@ -35,41 +32,145 @@ export function ModalDialog({
   children,
   size = 'md',
   variant = 'default',
-  confirmLabel = 'Confirm',
-  cancelLabel = 'Cancel',
+  confirmLabel = 'Confirmar',
+  cancelLabel = 'Cancelar',
   onConfirm,
 }: ModalDialogProps) {
+  const confirmStyle: React.CSSProperties =
+    variant === 'danger'
+      ? {
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '32px',
+          padding: '0 12px',
+          fontSize: '13px',
+          fontFamily: 'DM Sans, sans-serif',
+          fontWeight: 500,
+          borderRadius: '6px',
+          cursor: 'pointer',
+          border: '1.5px solid #E24B4A',
+          background: 'transparent',
+          color: '#E24B4A',
+          flexShrink: 0,
+          whiteSpace: 'nowrap',
+        }
+      : {
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '32px',
+          padding: '0 12px',
+          fontSize: '13px',
+          fontFamily: 'DM Sans, sans-serif',
+          fontWeight: 500,
+          borderRadius: '6px',
+          cursor: 'pointer',
+          border: 'none',
+          background: '#1A88FF',
+          color: '#ffffff',
+          flexShrink: 0,
+          whiteSpace: 'nowrap',
+        }
+
+  const cancelStyle: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '32px',
+    padding: '0 12px',
+    fontSize: '13px',
+    fontFamily: 'DM Sans, sans-serif',
+    fontWeight: 500,
+    borderRadius: '6px',
+    cursor: 'pointer',
+    border: '0.5px solid var(--border-emphasis)',
+    background: 'transparent',
+    color: 'var(--text-primary)',
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+  }
+
   return (
     <div
-      className={cn(
-        'surface-primary rounded-xl shadow-xl flex flex-col',
-        'border border-[0.5px] border-[var(--border-default)]',
-      )}
-      style={{ width: '100%', maxWidth: sizeMap[size], boxSizing: 'border-box' }}
+      style={{
+        width: '100%',
+        maxWidth: `${sizeMap[size]}px`,
+        boxSizing: 'border-box',
+        backgroundColor: 'var(--surface-primary, #ffffff)',
+        borderRadius: '16px',
+        boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)',
+        display: 'flex',
+        flexDirection: 'column',
+        border: '0.5px solid var(--border-default)',
+        overflow: 'hidden',
+      }}
       role="dialog"
       aria-modal="true"
     >
       {/* Header */}
       <div
-        className="flex items-start justify-between border-b border-[0.5px] border-[var(--border-default)]"
-        style={{ padding: '24px 24px 16px 24px' }}
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          padding: '24px 24px 16px 24px',
+          borderBottom: '0.5px solid var(--border-default)',
+          boxSizing: 'border-box',
+          width: '100%',
+        }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', paddingRight: '16px', minWidth: 0 }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px',
+            paddingRight: '16px',
+            minWidth: 0,
+            flex: 1,
+          }}
+        >
           {title && (
-            <h2 className="font-display text-[18px] font-semibold" style={{ color: 'var(--text-primary)' }}>
+            <h2
+              style={{
+                margin: 0,
+                fontSize: '18px',
+                fontWeight: 600,
+                fontFamily: 'Nunito, sans-serif',
+                color: 'var(--text-primary)',
+                lineHeight: 1.4,
+              }}
+            >
               {title}
             </h2>
           )}
           {description && (
-            <p className="font-sans text-[13px]" style={{ color: 'var(--text-secondary)' }}>
+            <p
+              style={{
+                margin: 0,
+                fontSize: '13px',
+                fontFamily: 'DM Sans, sans-serif',
+                color: 'var(--text-secondary)',
+                lineHeight: 1.5,
+              }}
+            >
               {description}
             </p>
           )}
         </div>
         <button
           onClick={onClose}
-          className="rounded-md hover:surface-secondary transition-colors focus:outline-none"
-          style={{ padding: '4px', flexShrink: 0 }}
+          style={{
+            padding: '4px',
+            flexShrink: 0,
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            borderRadius: '6px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
           <X size={18} style={{ color: 'var(--text-secondary)', display: 'block' }} />
         </button>
@@ -77,7 +178,16 @@ export function ModalDialog({
 
       {/* Body */}
       {children && (
-        <div className="font-sans text-[13px]" style={{ padding: '20px 24px', color: 'var(--text-primary)' }}>
+        <div
+          style={{
+            padding: '20px 24px',
+            fontSize: '13px',
+            fontFamily: 'DM Sans, sans-serif',
+            color: 'var(--text-primary)',
+            boxSizing: 'border-box',
+            width: '100%',
+          }}
+        >
           {children}
         </div>
       )}
@@ -85,26 +195,23 @@ export function ModalDialog({
       {/* Footer */}
       {onConfirm && (
         <div
-          className="border-t border-[0.5px] border-[var(--border-default)]"
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'flex-end',
             gap: '12px',
             padding: '16px 24px',
+            borderTop: '0.5px solid var(--border-default)',
             boxSizing: 'border-box',
+            width: '100%',
           }}
         >
-          <Button variant="ghost" size="sm" onClick={onClose}>
+          <button style={cancelStyle} onClick={onClose}>
             {cancelLabel}
-          </Button>
-          <Button
-            variant={variant === 'danger' ? 'destructive' : 'primary'}
-            size="sm"
-            onClick={onConfirm}
-          >
+          </button>
+          <button style={confirmStyle} onClick={onConfirm}>
             {confirmLabel}
-          </Button>
+          </button>
         </div>
       )}
     </div>
@@ -116,7 +223,9 @@ export function ModalDialog({
 function Modal({ open, onClose, ...props }: ModalProps) {
   useEffect(() => {
     if (!open) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [open, onClose])
@@ -139,7 +248,14 @@ function Modal({ open, onClose, ...props }: ModalProps) {
         style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)' }}
         onClick={onClose}
       />
-      <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <ModalDialog onClose={onClose} {...props} />
       </div>
     </div>
