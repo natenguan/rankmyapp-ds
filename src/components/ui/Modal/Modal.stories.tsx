@@ -1,31 +1,37 @@
-import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import { Modal } from './Modal'
-import { Button } from '../Button/Button'
+import { ModalDialog } from './Modal'
 import { Input } from '../Input/Input'
 
-const meta: Meta<typeof Modal> = {
+const meta: Meta<typeof ModalDialog> = {
   title: 'Components/Modal',
-  component: Modal,
+  component: ModalDialog,
   parameters: { layout: 'fullscreen' },
 }
 
 export default meta
-type Story = StoryObj<typeof Modal>
+type Story = StoryObj<typeof ModalDialog>
 
-function ModalDemo(props: Omit<React.ComponentProps<typeof Modal>, 'open' | 'onClose'>) {
-  const [open, setOpen] = useState(false)
+function StaticModal(props: Omit<React.ComponentProps<typeof ModalDialog>, 'onClose'>) {
   return (
-    <>
-      <Button size="sm" onClick={() => setOpen(true)}>Open Modal</Button>
-      <Modal {...props} open={open} onClose={() => setOpen(false)} />
-    </>
+    <div
+      style={{
+        background: 'rgba(0,0,0,0.4)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '60px 24px',
+        minHeight: '320px',
+        boxSizing: 'border-box',
+      }}
+    >
+      <ModalDialog {...props} onClose={() => {}} />
+    </div>
   )
 }
 
 export const Default: Story = {
   render: () => (
-    <ModalDemo
+    <StaticModal
       title="Confirmar ação"
       description="Tem certeza que deseja continuar com esta operação?"
       confirmLabel="Confirmar"
@@ -37,7 +43,7 @@ export const Default: Story = {
 
 export const Danger: Story = {
   render: () => (
-    <ModalDemo
+    <StaticModal
       variant="danger"
       title="Deletar keyword"
       description="Esta ação não pode ser desfeita. A keyword será removida permanentemente do seu tracking."
@@ -50,7 +56,7 @@ export const Danger: Story = {
 
 export const WithForm: Story = {
   render: () => (
-    <ModalDemo
+    <StaticModal
       title="Adicionar Keyword"
       description="Insira uma nova keyword para começar a monitorar."
       confirmLabel="Adicionar"
@@ -61,13 +67,13 @@ export const WithForm: Story = {
         <Input label="Keyword" placeholder="ex: globoplay" />
         <Input label="Categoria" placeholder="ex: Entretenimento" />
       </div>
-    </ModalDemo>
+    </StaticModal>
   ),
 }
 
 export const InfoOnly: Story = {
   render: () => (
-    <ModalDemo
+    <StaticModal
       size="sm"
       title="Atalho de teclado"
       description="Pressione Esc para fechar este modal a qualquer momento."
@@ -77,7 +83,7 @@ export const InfoOnly: Story = {
 
 export const Large: Story = {
   render: () => (
-    <ModalDemo
+    <StaticModal
       size="lg"
       title="Detalhes da keyword"
       description="Histórico completo de posicionamento e volume de busca."
@@ -92,6 +98,6 @@ export const Large: Story = {
           </div>
         ))}
       </div>
-    </ModalDemo>
+    </StaticModal>
   ),
 }
