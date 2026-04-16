@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react'
 
 /* ── Types ─────────────────────────────────────────────────────── */
@@ -42,13 +42,36 @@ function sameDay(a: Date, b: Date): boolean {
   )
 }
 
-function formatPretty(d: Date): string {
-  const months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez']
-  return `${String(d.getDate()).padStart(2, '0')} ${months[d.getMonth()]} ${d.getFullYear()}`
-}
 
 function formatShort(d: Date): string {
   return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`
+}
+
+// Format for the editable input field (DD/MM/AAAA)
+function formatInput(d: Date): string {
+  return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`
+}
+
+// Parse DD/MM/AAAA — returns null if invalid
+function parseInput(s: string): Date | null {
+  const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/)
+  if (!m) return null
+  const day = parseInt(m[1], 10)
+  const month = parseInt(m[2], 10)
+  const year = parseInt(m[3], 10)
+  if (month < 1 || month > 12 || day < 1 || day > 31 || year < 1900 || year > 2100) return null
+  const d = new Date(year, month - 1, day)
+  // Guard against overflow (e.g. Feb 30 → Mar 2)
+  if (d.getDate() !== day || d.getMonth() !== month - 1 || d.getFullYear() !== year) return null
+  return d
+}
+
+// Auto-insert slashes while typing: 01 → 01/ → 01/02 → 01/02/ → 01/02/2026
+function autoSlash(raw: string): string {
+  const digits = raw.replace(/\D/g, '').slice(0, 8)
+  if (digits.length <= 2) return digits
+  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`
+  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`
 }
 
 /* ── Presets ───────────────────────────────────────────────────── */
@@ -303,9 +326,20 @@ export function DateRangePicker({
     return new Date(s.getFullYear(), s.getMonth() + 1, 1)
   })
   const [activePreset, setActivePreset] = useState<string | null>(null)
+  const [startText, setStartText] = useState(() => pendingStart ? formatInput(pendingStart) : '')
+  const [endText, setEndText] = useState(() => pendingEnd ? formatInput(pendingEnd) : '')
   const ref = useRef<HTMLDivElement>(null)
 
   const rightMonth = rightViewMonth
+
+  // Keep text inputs in sync when dates change via calendar clicks or presets
+  useEffect(() => {
+    setStartText(pendingStart ? formatInput(pendingStart) : '')
+  }, [pendingStart])
+
+  useEffect(() => {
+    setEndText(pendingEnd ? formatInput(pendingEnd) : '')
+  }, [pendingEnd])
 
   useEffect(() => {
     const h = (e: MouseEvent) => {
@@ -327,6 +361,8 @@ export function DateRangePicker({
     if (!open) {
       setPendingStart(value?.start ?? null)
       setPendingEnd(value?.end ?? null)
+      setStartText(value?.start ? formatInput(value.start) : '')
+      setEndText(value?.end ? formatInput(value.end) : '')
       setSelectingEnd(false)
       setHoverDate(null)
       setActivePreset(null)
@@ -378,6 +414,41 @@ export function DateRangePicker({
       setRightViewMonth(endMonth)
     }
   }
+
+  const navigateToDate = useCallback((d: Date, side: 'left' | 'right') => {
+    const m = new Date(d.getFullYear(), d.getMonth(), 1)
+    if (side === 'left') setViewMonth(m)
+    else setRightViewMonth(m)
+  }, [])
+
+  const handleStartBlur = useCallback(() => {
+    const parsed = parseInput(startText)
+    if (parsed) {
+      setPendingStart(parsed)
+      setPendingEnd(null)
+      setSelectingEnd(true)
+      navigateToDate(parsed, 'left')
+      setActivePreset(null)
+    } else {
+      // Revert to current pending value
+      setStartText(pendingStart ? formatInput(pendingStart) : '')
+    }
+  }, [startText, pendingStart, navigateToDate])
+
+  const handleEndBlur = useCallback(() => {
+    const parsed = parseInput(endText)
+    if (parsed && pendingStart) {
+      const s = parsed < pendingStart ? parsed : pendingStart
+      const e = parsed < pendingStart ? pendingStart : parsed
+      setPendingStart(s)
+      setPendingEnd(e)
+      setSelectingEnd(false)
+      navigateToDate(e, 'right')
+      setActivePreset(null)
+    } else {
+      setEndText(pendingEnd ? formatInput(pendingEnd) : '')
+    }
+  }, [endText, pendingStart, pendingEnd, navigateToDate])
 
   const handleApply = () => {
     if (pendingStart && pendingEnd) {
@@ -473,38 +544,46 @@ export function DateRangePicker({
           {/* Calendar section */}
           <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 14 }}>
 
-            {/* Date inputs */}
+            {/* Date inputs — editável em DD/MM/AAAA */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                height: 32, padding: '0 10px', flex: 1,
-                borderRadius: 6, boxSizing: 'border-box',
-                border: selectingEnd ? 'none' : '0.5px solid var(--border-emphasis)',
-                background: selectingEnd ? 'rgba(26,136,255,0.06)' : 'var(--surface-secondary)',
-                outline: selectingEnd ? '1.5px solid #1A88FF' : 'none',
-              }}>
-                <span style={{
+              <input
+                value={startText}
+                placeholder="DD/MM/AAAA"
+                maxLength={10}
+                onChange={e => setStartText(autoSlash(e.target.value))}
+                onFocus={() => setSelectingEnd(false)}
+                onBlur={handleStartBlur}
+                onKeyDown={e => e.key === 'Enter' && (e.target as HTMLInputElement).blur()}
+                style={{
+                  height: 32, padding: '0 10px', flex: 1,
+                  borderRadius: 6, boxSizing: 'border-box',
+                  border: selectingEnd ? '1.5px solid #1A88FF' : '0.5px solid var(--border-emphasis)',
+                  background: selectingEnd ? 'rgba(26,136,255,0.04)' : 'var(--surface-secondary)',
                   fontFamily: 'DM Sans, sans-serif', fontSize: 12,
-                  color: displayStart ? 'var(--text-primary)' : 'var(--text-secondary)',
-                }}>
-                  {displayStart ? formatPretty(displayStart) : 'Data início'}
-                </span>
-              </div>
+                  color: startText ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  outline: 'none',
+                  minWidth: 0,
+                }}
+              />
               <span style={{ color: 'var(--text-secondary)', fontSize: 14, flexShrink: 0 }}>→</span>
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                height: 32, padding: '0 10px', flex: 1,
-                borderRadius: 6, boxSizing: 'border-box',
-                border: '0.5px solid var(--border-emphasis)',
-                background: 'var(--surface-secondary)',
-              }}>
-                <span style={{
+              <input
+                value={endText}
+                placeholder="DD/MM/AAAA"
+                maxLength={10}
+                onChange={e => setEndText(autoSlash(e.target.value))}
+                onBlur={handleEndBlur}
+                onKeyDown={e => e.key === 'Enter' && (e.target as HTMLInputElement).blur()}
+                style={{
+                  height: 32, padding: '0 10px', flex: 1,
+                  borderRadius: 6, boxSizing: 'border-box',
+                  border: '0.5px solid var(--border-emphasis)',
+                  background: 'var(--surface-secondary)',
                   fontFamily: 'DM Sans, sans-serif', fontSize: 12,
-                  color: displayEnd ? 'var(--text-primary)' : 'var(--text-secondary)',
-                }}>
-                  {displayEnd ? formatPretty(displayEnd) : 'Data fim'}
-                </span>
-              </div>
+                  color: endText ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  outline: 'none',
+                  minWidth: 0,
+                }}
+              />
             </div>
 
             {/* Two month calendars */}
