@@ -6,6 +6,7 @@ import {
 } from 'recharts'
 
 import { Button } from '../components/ui/Button/Button'
+import { Badge } from '../components/ui/Badge/Badge'
 import { Input } from '../components/ui/Input/Input'
 import { MetricCard } from '../components/ui/MetricCard/MetricCard'
 import { AppItemCard } from '../components/ui/AppItemCard/AppItemCard'
