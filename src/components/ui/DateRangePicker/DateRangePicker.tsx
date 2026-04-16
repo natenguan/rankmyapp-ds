@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react'
 import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react'
 
 /* ── Types ─────────────────────────────────────────────────────── */
@@ -328,9 +328,25 @@ export function DateRangePicker({
   const [activePreset, setActivePreset] = useState<string | null>(null)
   const [startText, setStartText] = useState(() => pendingStart ? formatInput(pendingStart) : '')
   const [endText, setEndText] = useState(() => pendingEnd ? formatInput(pendingEnd) : '')
+  const [panelPos, setPanelPos] = useState({ top: 0, left: 0 })
   const ref = useRef<HTMLDivElement>(null)
 
   const rightMonth = rightViewMonth
+
+  // Calculate panel position using fixed coordinates to avoid viewport overflow
+  useLayoutEffect(() => {
+    if (!open || !ref.current) return
+    const rect = ref.current.getBoundingClientRect()
+    const panelWidth = 700 // slightly wider than actual panel (~680px)
+    const margin = 8
+    const viewportWidth = window.innerWidth
+
+    let left = align === 'right' ? rect.right - panelWidth : rect.left
+    // Clamp so panel never escapes viewport edges
+    left = Math.max(margin, Math.min(left, viewportWidth - panelWidth - margin))
+
+    setPanelPos({ top: rect.bottom + 6, left })
+  }, [open, align])
 
   // Keep text inputs in sync when dates change via calendar clicks or presets
   useEffect(() => {
@@ -485,12 +501,12 @@ export function DateRangePicker({
         {triggerText}
       </button>
 
-      {/* Panel */}
+      {/* Panel — fixed so it never overflows viewport regardless of trigger position */}
       {open && (
         <div style={{
-          position: 'absolute',
-          top: 'calc(100% + 6px)',
-          ...(align === 'right' ? { right: 0 } : { left: 0 }),
+          position: 'fixed',
+          top: panelPos.top,
+          left: panelPos.left,
           zIndex: 300,
           background: 'var(--surface-primary)',
           border: '0.5px solid var(--border-default)',
