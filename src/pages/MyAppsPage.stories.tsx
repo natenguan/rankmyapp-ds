@@ -6,9 +6,9 @@ import {
 } from 'recharts'
 
 import { Button } from '../components/ui/Button/Button'
-import { Badge } from '../components/ui/Badge/Badge'
 import { Input } from '../components/ui/Input/Input'
 import { MetricCard } from '../components/ui/MetricCard/MetricCard'
+import { AppItemCard } from '../components/ui/AppItemCard/AppItemCard'
 import { Tabs, TabsList, TabsTrigger, TabsContent, PillGroup } from '../components/ui/Tabs/Tabs'
 import { Sidebar } from '../components/ui/Sidebar/Sidebar'
 
@@ -78,37 +78,6 @@ const sidebarGroups = [
 
 /* ── Sub-components ─────────────────────────────────────────── */
 
-function AppCard({ selected = false }: { selected?: boolean }) {
-  return (
-    <div
-      className={[
-        'flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all',
-        selected
-          ? 'border-[1.5px] border-[#1A88FF] bg-[rgba(26,136,255,0.04)]'
-          : 'border-[0.5px] border-[var(--border-default)] surface-primary hover:surface-secondary',
-      ].join(' ')}
-    >
-      <img
-        src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/6b/8f/6e/6b8f6e6e-6e6e-6e6e-6e6e-6e6e6e6e6e6e/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png"
-        alt="Globoplay"
-        className="w-10 h-10 rounded-xl object-cover bg-[var(--surface-secondary)]"
-        onError={(e) => {
-          (e.target as HTMLImageElement).style.display = 'none'
-        }}
-      />
-      <div className="flex flex-col gap-1 min-w-0">
-        <span className="font-sans text-[13px] font-medium text-primary-ds truncate">
-          Globoplay: BBB, Brasileiro
-        </span>
-        <span className="font-sans text-[12px] text-secondary-ds truncate">
-          GLOBO COM. E PART. S/A
-        </span>
-        <Badge variant="purple" className="self-start mt-1">Apple Store</Badge>
-      </div>
-    </div>
-  )
-}
-
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <h2 className="font-sans text-[18px] font-medium text-primary-ds">{children}</h2>
@@ -158,6 +127,7 @@ function MyAppsPage() {
   const [keywordsTab, setKeywordsTab] = useState('typed')
   const [metadataTab, setMetadataTab] = useState('title')
   const [ratingsTab, setRatingsTab] = useState('ratings')
+  const [selectedApp, setSelectedApp] = useState(0)
 
   return (
     <div className="flex h-screen overflow-hidden surface-tertiary">
@@ -185,9 +155,23 @@ function MyAppsPage() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 max-w-xs">
-            <AppCard selected />
-            <AppCard />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 320 }}>
+            <AppItemCard
+              appName="Globoplay: BBB, Brasileiro"
+              developer="GLOBO COM. E PART. S/A"
+              category="Entretenimento"
+              store="apple"
+              isActive={selectedApp === 0}
+              onSelect={() => setSelectedApp(0)}
+            />
+            <AppItemCard
+              appName="Globoplay: BBB, Brasileiro"
+              developer="GLOBO COM. E PART. S/A"
+              category="Entretenimento"
+              store="google"
+              isActive={selectedApp === 1}
+              onSelect={() => setSelectedApp(1)}
+            />
           </div>
         </div>
 

@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { Button } from '../components/ui/Button/Button'
 import { Input } from '../components/ui/Input/Input'
+import { Select } from '../components/ui/Select/Select'
 import { Sidebar } from '../components/ui/Sidebar/Sidebar'
 
 const meta: Meta = {
@@ -301,29 +302,29 @@ function KeywordManagementPage() {
               />
 
               {/* Store filter */}
-              <select
-                className="h-9 rounded-md border border-[var(--border-emphasis)] surface-primary font-sans text-[13px] text-primary-ds px-3 focus:outline-none focus:border-[#1A88FF]"
+              <Select
                 value={storeFilter}
-                onChange={e => setStoreFilter(e.target.value)}
-              >
-                <option value="all">All stores</option>
-                <option value="apple">Apple Store</option>
-                <option value="play">Play Store</option>
-              </select>
+                onChange={setStoreFilter}
+                options={[
+                  { value: 'all', label: 'All stores' },
+                  { value: 'apple', label: 'Apple Store' },
+                  { value: 'play', label: 'Play Store' },
+                ]}
+              />
 
               {/* Status filter */}
-              <select
-                className="h-9 rounded-md border border-[var(--border-emphasis)] surface-primary font-sans text-[13px] text-primary-ds px-3 focus:outline-none focus:border-[#1A88FF]"
+              <Select
                 value={statusFilter}
-                onChange={e => setStatusFilter(e.target.value)}
-              >
-                <option value="all">All selected</option>
-                <option value="tracked">Tracked</option>
-                <option value="untracked">Not tracked</option>
-                <option value="dropping">Dropping</option>
-                <option value="stable">Stable</option>
-                <option value="new">New</option>
-              </select>
+                onChange={setStatusFilter}
+                options={[
+                  { value: 'all', label: 'All selected' },
+                  { value: 'tracked', label: 'Tracked' },
+                  { value: 'untracked', label: 'Not tracked' },
+                  { value: 'dropping', label: 'Dropping' },
+                  { value: 'stable', label: 'Stable' },
+                  { value: 'new', label: 'New' },
+                ]}
+              />
 
               <div className="ml-auto flex items-center gap-2">
                 {selectedCount > 0 && (

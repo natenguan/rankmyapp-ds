@@ -6,6 +6,7 @@ import { Badge } from '../components/ui/Badge/Badge'
 import { Input } from '../components/ui/Input/Input'
 import { Toggle } from '../components/ui/Toggle/Toggle'
 import { MetricCard } from '../components/ui/MetricCard/MetricCard'
+import { StatGroup } from '../components/ui/StatGroup/StatGroup'
 import { Alert } from '../components/ui/Alert/Alert'
 import { ProgressBar } from '../components/ui/ProgressBar/ProgressBar'
 import { Tabs, TabsList, TabsTrigger, TabsContent, PillGroup } from '../components/ui/Tabs/Tabs'
@@ -231,11 +232,13 @@ function OverviewDemo() {
           </div>
 
           {/* DS summary stats */}
-          <div className="grid grid-cols-4 gap-[10px] mt-5">
-            <MetricCard label="Componentes" value="13" delta={3} deltaLabel="+3 hoje" />
-            <MetricCard label="Tokens de cor" value="22" />
-            <MetricCard label="Pages no Storybook" value="3" delta={1} deltaLabel="+1 esta semana" />
-            <MetricCard label="Chromatic Builds" value="7" delta={7} deltaLabel="todos aprovados" />
+          <div style={{ marginTop: 20 }}>
+            <StatGroup columns={4}>
+              <MetricCard label="Componentes" value="43" delta={3} deltaLabel="+3 novos" deltaType="positive" />
+              <MetricCard label="Tokens de cor" value="22" />
+              <MetricCard label="Pages no Storybook" value="4" delta={1} deltaLabel="+1 esta semana" deltaType="positive" />
+              <MetricCard label="Chromatic Builds" value="41" delta={41} deltaLabel="todos aprovados" />
+            </StatGroup>
           </div>
         </div>
 
@@ -596,11 +599,21 @@ function OverviewDemo() {
 
         {/* ── Metric Cards ── */}
         <Section title="Metric Cards">
-          <div className="grid grid-cols-4 gap-[10px]">
-            <MetricCard label="Impressions" value="124.5K" delta={12} deltaLabel="+12%" />
-            <MetricCard label="Downloads" value="8,230" delta={-3} deltaLabel="-3%" />
-            <MetricCard label="Rating" value="4.7 ★" delta={0} />
-            <MetricCard label="Keywords Ranked" value="342" delta={18} deltaLabel="+18" />
+          <div className="flex flex-col gap-4">
+            <span className="font-sans text-[12px] text-secondary-ds">4 colunas via StatGroup</span>
+            <StatGroup columns={4}>
+              <MetricCard label="Impressions" value="124.5K" delta={12} deltaLabel="+12%" deltaType="positive" />
+              <MetricCard label="Downloads" value="8,230" delta={-3} deltaLabel="-3%" deltaType="negative" />
+              <MetricCard label="Rating" value="4.7 ★" />
+              <MetricCard label="Keywords Ranked" value="342" delta={18} deltaLabel="+18" deltaType="positive" />
+            </StatGroup>
+            <span className="font-sans text-[12px] text-secondary-ds">Com variantes</span>
+            <StatGroup columns={4}>
+              <MetricCard label="Growing" value="17" variant="growing" delta={3} deltaLabel="+3" deltaType="positive" />
+              <MetricCard label="Dropping" value="4" variant="dropping" delta={-2} deltaLabel="-2" deltaType="negative" />
+              <MetricCard label="Stable" value="28" variant="stable" />
+              <MetricCard label="Loading" value="—" loading />
+            </StatGroup>
           </div>
         </Section>
 

@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react'
 
 import { Button } from '../components/ui/Button/Button'
 import { Badge } from '../components/ui/Badge/Badge'
-import { Input } from '../components/ui/Input/Input'
 import { Sidebar } from '../components/ui/Sidebar/Sidebar'
 import { PillGroup } from '../components/ui/Tabs/Tabs'
+import { Select } from '../components/ui/Select/Select'
+import { DateRangePicker } from '../components/ui/DateRangePicker/DateRangePicker'
+import type { DateRange } from '../components/ui/DateRangePicker/DateRangePicker'
 
 const meta: Meta = {
   title: 'Pages/Category Rank',
@@ -101,145 +102,6 @@ const APP_LINES = [
   { key: 'santander',  label: 'Banco Santander Br... (Business)',     color: '#6B7280' },
 ]
 
-/* ── DateRangePicker ────────────────────────────────────────── */
-
-const PRESETS = [
-  'Today',
-  'Yesterday',
-  'This Week',
-  'Last Week',
-  'This Month',
-  'Last Month',
-  '32 days up to today',
-  'days starting today',
-]
-
-const MONTH_NAMES = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
-]
-
-const DAY_HEADERS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
-
-function DateRangePicker({ defaultOpen = false }: { defaultOpen?: boolean }) {
-  const [isOpen, setIsOpen] = useState(defaultOpen)
-  const [viewMonth, setViewMonth] = useState(new Date(2026, 2)) // March 2026
-
-  const START = new Date(2026, 2, 13)
-  const END   = new Date(2026, 3, 13)
-
-  const year  = viewMonth.getFullYear()
-  const month = viewMonth.getMonth()
-  const firstDay    = new Date(year, month, 1).getDay()
-  const daysInMonth = new Date(year, month + 1, 0).getDate()
-
-  const isSameDay = (d: Date, ref: Date) =>
-    d.getFullYear() === ref.getFullYear() &&
-    d.getMonth()    === ref.getMonth()    &&
-    d.getDate()     === ref.getDate()
-
-  const getState = (day: number) => {
-    const d = new Date(year, month, day)
-    if (isSameDay(d, START) || isSameDay(d, END)) return 'edge'
-    if (d > START && d < END) return 'range'
-    return 'default'
-  }
-
-  return (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="h-9 px-3 rounded-md border border-[var(--border-emphasis)] surface-primary font-sans text-[13px] text-primary-ds flex items-center gap-2 hover:surface-secondary transition-colors focus:outline-none"
-      >
-        <CalendarDays size={14} className="text-secondary-ds" />
-        03/13/2026 - 04/13/2026
-      </button>
-
-      {isOpen && (
-        <div className="absolute top-11 left-0 z-50 surface-primary border border-[var(--border-default)] rounded-lg shadow-lg flex overflow-hidden">
-
-          {/* Presets */}
-          <div className="w-44 border-r border-[var(--border-default)] p-2 flex flex-col gap-[2px]">
-            {PRESETS.map((preset) => (
-              <button
-                key={preset}
-                className="text-left font-sans text-[13px] text-primary-ds px-3 py-[7px] rounded-md hover:surface-secondary transition-colors"
-              >
-                {preset}
-              </button>
-            ))}
-          </div>
-
-          {/* Calendar */}
-          <div className="p-4 flex flex-col gap-3 w-[272px]">
-
-            {/* Date inputs */}
-            <div className="flex items-center gap-2">
-              <Input defaultValue="Mar 13, 2026" className="h-8 text-[12px] flex-1" />
-              <span className="font-sans text-[12px] text-secondary-ds">—</span>
-              <Input defaultValue="Apr 13, 2026" className="h-8 text-[12px] flex-1" />
-            </div>
-
-            {/* Month navigation */}
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setViewMonth(new Date(year, month - 1))}
-                className="p-1 rounded hover:surface-secondary transition-colors"
-              >
-                <ChevronLeft size={16} className="text-secondary-ds" />
-              </button>
-              <span className="font-sans text-[14px] font-medium text-primary-ds">
-                {MONTH_NAMES[month]} {year}
-              </span>
-              <button
-                onClick={() => setViewMonth(new Date(year, month + 1))}
-                className="p-1 rounded hover:surface-secondary transition-colors"
-              >
-                <ChevronRight size={16} className="text-secondary-ds" />
-              </button>
-            </div>
-
-            {/* Day grid */}
-            <div className="grid grid-cols-7 gap-y-[2px]">
-              {DAY_HEADERS.map(d => (
-                <div
-                  key={d}
-                  className="text-center font-sans text-[11px] text-secondary-ds py-1"
-                >
-                  {d}
-                </div>
-              ))}
-
-              {Array.from({ length: firstDay }).map((_, i) => (
-                <div key={`empty-${i}`} />
-              ))}
-
-              {Array.from({ length: daysInMonth }, (_, i) => i + 1).map(day => {
-                const state = getState(day)
-                return (
-                  <button
-                    key={day}
-                    className={
-                      state === 'edge'
-                        ? 'text-center font-sans text-[12px] py-1 rounded-md bg-[#1A88FF] text-white w-full'
-                        : state === 'range'
-                          ? 'text-center font-sans text-[12px] py-1 rounded-md bg-[rgba(26,136,255,0.12)] text-[#1A88FF] w-full'
-                          : 'text-center font-sans text-[12px] py-1 rounded-md text-primary-ds hover:surface-secondary w-full transition-colors'
-                    }
-                  >
-                    {day}
-                  </button>
-                )
-              })}
-            </div>
-
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
 /* ── App Chip ───────────────────────────────────────────────── */
 
 function AppChip({ label, color }: { label: string; color: string }) {
@@ -263,10 +125,14 @@ function AppChip({ label, color }: { label: string; color: string }) {
 
 /* ── Page ───────────────────────────────────────────────────── */
 
-function CategoryRankPage({ datePickerOpen = false }: { datePickerOpen?: boolean }) {
+function CategoryRankPage() {
   const [period, setPeriod]   = useState('daily')
   const [category, setCategory] = useState('all')
   const [pricing, setPricing] = useState('all')
+  const [dateRange, setDateRange] = useState<DateRange>({
+    start: new Date(2026, 2, 13),
+    end: new Date(2026, 3, 13),
+  })
 
   return (
     <div className="flex h-screen overflow-hidden surface-tertiary">
@@ -312,15 +178,15 @@ function CategoryRankPage({ datePickerOpen = false }: { datePickerOpen?: boolean
               {/* Category */}
               <div className="flex items-center gap-2">
                 <span className="font-sans text-[13px] text-secondary-ds">Category:</span>
-                <select
-                  className="h-9 rounded-md border border-[var(--border-emphasis)] surface-primary font-sans text-[13px] text-primary-ds px-3 focus:outline-none focus:border-[#1A88FF]"
+                <Select
                   value={category}
-                  onChange={e => setCategory(e.target.value)}
-                >
-                  <option value="all">All</option>
-                  <option value="finance">Finance</option>
-                  <option value="productivity">Productivity</option>
-                </select>
+                  onChange={setCategory}
+                  options={[
+                    { value: 'all', label: 'All' },
+                    { value: 'finance', label: 'Finance' },
+                    { value: 'productivity', label: 'Productivity' },
+                  ]}
+                />
               </div>
 
               {/* Period */}
@@ -349,7 +215,7 @@ function CategoryRankPage({ datePickerOpen = false }: { datePickerOpen?: boolean
               </div>
 
               {/* Date range picker */}
-              <DateRangePicker defaultOpen={datePickerOpen} />
+              <DateRangePicker value={dateRange} onChange={setDateRange} />
 
               {/* Search */}
               <Button size="sm">Search</Button>
@@ -424,8 +290,4 @@ function CategoryRankPage({ datePickerOpen = false }: { datePickerOpen?: boolean
 
 export const Default: Story = {
   render: () => <CategoryRankPage />,
-}
-
-export const WithDatePickerOpen: Story = {
-  render: () => <CategoryRankPage datePickerOpen />,
 }
