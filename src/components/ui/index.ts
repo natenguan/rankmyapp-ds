@@ -121,3 +121,6 @@ export type { AccountSwitcherProps, Account } from './AccountSwitcher/AccountSwi
 
 export { Command } from './Command/Command'
 export type { CommandProps, CommandItem } from './Command/Command'
+
+export { DateRangePicker } from './DateRangePicker/DateRangePicker'
+export type { DateRangePickerProps, DateRange } from './DateRangePicker/DateRangePicker'
