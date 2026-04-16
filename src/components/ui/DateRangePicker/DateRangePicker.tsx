@@ -490,7 +490,7 @@ export function DateRangePicker({
         onClick={handleOpen}
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 8,
-          height: 36, padding: '0 12px',
+          height: 36, padding: '0 12px', minWidth: 210,
           background: open ? 'var(--surface-secondary)' : 'var(--surface-primary)',
           border: `0.5px solid ${open ? '#1A88FF' : 'var(--border-emphasis)'}`,
           borderRadius: 8, cursor: 'pointer',
