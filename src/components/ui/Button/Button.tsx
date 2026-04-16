@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-md font-sans font-medium transition-all duration-150 disabled:opacity-40 disabled:pointer-events-none focus-visible:outline-none',
+  'inline-flex items-center justify-center gap-[8px] rounded-md font-sans font-medium transition-all duration-150 disabled:opacity-40 disabled:pointer-events-none focus-visible:outline-none',
   {
     variants: {
       variant: {
@@ -18,9 +18,9 @@ const buttonVariants = cva(
           'bg-transparent border border-[1.5px] border-[#E24B4A] text-[#E24B4A] hover:bg-[rgba(226,75,74,0.07)] focus-visible:shadow-[0_0_0_3px_rgba(226,75,74,0.3)]',
       },
       size: {
-        sm: 'h-8 px-3 text-[13px]',
-        md: 'h-9 px-4 text-[13px]',
-        lg: 'h-11 px-5 text-[14px]',
+        sm: 'h-[32px] px-[12px] text-[13px]',
+        md: 'h-[36px] px-[16px] text-[13px]',
+        lg: 'h-[44px] px-[20px] text-[14px]',
       },
     },
     defaultVariants: {
@@ -50,7 +50,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {loading ? (
           <>
             <svg
-              className="animate-spin h-4 w-4"
+              className="animate-spin h-[16px] w-[16px]"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
