@@ -62,3 +62,6 @@ export type { PaginationProps } from './Pagination/Pagination'
 
 export { IconButton } from './IconButton/IconButton'
 export type { IconButtonProps, IconButtonVariant, IconButtonSize } from './IconButton/IconButton'
+
+export { LineChart, BarChart } from './Chart/Chart'
+export type { ChartProps, ChartSeries } from './Chart/Chart'
