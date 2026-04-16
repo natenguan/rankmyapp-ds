@@ -236,7 +236,7 @@ function OverviewDemo() {
             <StatGroup columns={4}>
               <MetricCard label="Componentes" value="43" delta={3} deltaLabel="+3 novos" deltaType="positive" />
               <MetricCard label="Tokens de cor" value="22" />
-              <MetricCard label="Pages no Storybook" value="4" delta={1} deltaLabel="+1 esta semana" deltaType="positive" />
+              <MetricCard label="Pages no Storybook" value="0" />
               <MetricCard label="Chromatic Builds" value="41" delta={41} deltaLabel="todos aprovados" />
             </StatGroup>
           </div>
