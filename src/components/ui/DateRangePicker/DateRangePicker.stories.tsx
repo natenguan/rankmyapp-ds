@@ -16,16 +16,20 @@ type Story = StoryObj<typeof DateRangePicker>
 
 export const Closed: Story = {
   render: () => (
-    <DateRangePicker placeholder="Selecionar período" onChange={() => {}} />
+    <div style={{ minHeight: 520 }}>
+      <DateRangePicker placeholder="Selecionar período" onChange={() => {}} />
+    </div>
   ),
 }
 
 export const ClosedWithValue: Story = {
   render: () => (
-    <DateRangePicker
-      value={{ start: new Date(2026, 2, 1), end: new Date(2026, 2, 31) }}
-      onChange={() => {}}
-    />
+    <div style={{ minHeight: 520 }}>
+      <DateRangePicker
+        value={{ start: new Date(2026, 2, 1), end: new Date(2026, 2, 31) }}
+        onChange={() => {}}
+      />
+    </div>
   ),
 }
 
@@ -79,7 +83,7 @@ export const Interactive: Story = {
     })
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24, minHeight: 520 }}>
         <DateRangePicker value={value} onChange={v => setValue(v)} />
 
         {value && (
