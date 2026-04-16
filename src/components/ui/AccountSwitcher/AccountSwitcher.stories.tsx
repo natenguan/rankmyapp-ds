@@ -72,6 +72,7 @@ export const TwoAccounts: Story = {
         accounts={ACCOUNTS.slice(0, 2)}
         activeAccountId="sportv"
         onSwitch={() => {}}
+        onAddAccount={() => {}}
       />
     </div>
   ),
