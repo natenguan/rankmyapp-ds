@@ -69,7 +69,7 @@ function MetricCard({ className, label, value, delta, deltaLabel, ...props }: Me
 /* ── Card sub-elements ──────────────────────────────────────── */
 
 function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('mb-4', className)} {...props} />
+  return <div className={cn('mb-[16px]', className)} {...props} />
 }
 
 function CardTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {

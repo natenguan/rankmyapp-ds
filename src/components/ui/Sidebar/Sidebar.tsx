@@ -24,12 +24,12 @@ function Sidebar({ groups, className }: SidebarProps) {
     <aside
       className={cn(
         'w-[200px] h-full surface-primary border-r border-[0.5px] border-[var(--border-default)]',
-        'flex flex-col gap-1 py-4',
+        'flex flex-col gap-1 py-[16px]',
         className
       )}
     >
       {/* Brand */}
-      <div className="flex items-center gap-2 px-4 mb-4">
+      <div className="flex items-center gap-2 px-[16px] mb-[16px]">
         <div className="w-7 h-7 rounded-[6px] bg-[#1A88FF] flex items-center justify-center shrink-0">
           <ChevronRight size={14} className="text-white" />
         </div>
@@ -38,7 +38,7 @@ function Sidebar({ groups, className }: SidebarProps) {
 
       {groups.map((group) => (
         <div key={group.label} className="flex flex-col">
-          <span className="label-upper text-secondary-ds px-4 py-2">{group.label}</span>
+          <span className="label-upper text-secondary-ds px-[16px] py-2">{group.label}</span>
           {group.items.map((item) => (
             <NavItemComponent key={item.label} item={item} />
           ))}
@@ -60,7 +60,7 @@ function NavItemComponent({ item }: { item: NavItem }) {
           : 'text-secondary-ds hover:surface-secondary hover:text-primary-ds'
       )}
     >
-      {item.icon && <span className="shrink-0 w-4 h-4">{item.icon}</span>}
+      {item.icon && <span className="shrink-0 w-[16px] h-[16px]">{item.icon}</span>}
       <span className="truncate">{item.label}</span>
     </button>
   )
