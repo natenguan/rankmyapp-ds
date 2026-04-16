@@ -92,3 +92,15 @@ export type { BreadcrumbProps, BreadcrumbItem } from './Breadcrumb/Breadcrumb'
 
 export { Accordion } from './Accordion/Accordion'
 export type { AccordionProps, AccordionItem } from './Accordion/Accordion'
+
+export { Popover } from './Popover/Popover'
+export type { PopoverProps, PopoverSide, PopoverAlign } from './Popover/Popover'
+
+export { MultiSelect } from './MultiSelect/MultiSelect'
+export type { MultiSelectProps, MultiSelectOption } from './MultiSelect/MultiSelect'
+
+export { Sheet } from './Sheet/Sheet'
+export type { SheetProps, SheetSide } from './Sheet/Sheet'
+
+export { UserMenu } from './UserMenu/UserMenu'
+export type { UserMenuProps } from './UserMenu/UserMenu'
