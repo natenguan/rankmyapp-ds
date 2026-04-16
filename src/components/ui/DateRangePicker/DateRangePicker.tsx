@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react'
-import { createPortal } from 'react-dom'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react'
 
 /* ── Types ─────────────────────────────────────────────────────── */
@@ -329,24 +328,9 @@ export function DateRangePicker({
   const [activePreset, setActivePreset] = useState<string | null>(null)
   const [startText, setStartText] = useState(() => pendingStart ? formatInput(pendingStart) : '')
   const [endText, setEndText] = useState(() => pendingEnd ? formatInput(pendingEnd) : '')
-  const [panelPos, setPanelPos] = useState<{ top: number; left: number } | null>(null)
   const ref = useRef<HTMLDivElement>(null)
-  const panelRef = useRef<HTMLDivElement>(null)
 
   const rightMonth = rightViewMonth
-
-  // Calculate panel position — runs synchronously before paint
-  useLayoutEffect(() => {
-    if (!open) { setPanelPos(null); return }
-    if (!ref.current) return
-    const rect = ref.current.getBoundingClientRect()
-    const panelWidth = 700
-    const margin = 8
-    const viewportWidth = window.innerWidth
-    let left = align === 'right' ? rect.right - panelWidth : rect.left
-    left = Math.max(margin, Math.min(left, viewportWidth - panelWidth - margin))
-    setPanelPos({ top: rect.bottom + 6, left })
-  }, [open, align])
 
   // Keep text inputs in sync when dates change via calendar clicks or presets
   useEffect(() => {
@@ -359,10 +343,7 @@ export function DateRangePicker({
 
   useEffect(() => {
     const h = (e: MouseEvent) => {
-      const target = e.target as Node
-      const inTrigger = ref.current?.contains(target)
-      const inPanel = panelRef.current?.contains(target)
-      if (!inTrigger && !inPanel) setOpen(false)
+      if (!ref.current?.contains(e.target as Node)) setOpen(false)
     }
     document.addEventListener('mousedown', h)
     return () => document.removeEventListener('mousedown', h)
@@ -504,12 +485,15 @@ export function DateRangePicker({
         {triggerText}
       </button>
 
-      {/* Panel — rendered via portal at document.body so no parent CSS can clip it */}
-      {open && panelPos && createPortal(
-        <div ref={panelRef} style={{
-          position: 'fixed',
-          top: panelPos.top,
-          left: panelPos.left,
+      {/* Panel — position:absolute inside the trigger wrapper.
+           align="left"  → left edge of panel aligns with left edge of trigger.
+           align="right" → right edge of panel aligns with right edge of trigger
+                          (panel extends leftward, never goes off-screen to the right). */}
+      {open && (
+        <div style={{
+          position: 'absolute',
+          top: 'calc(100% + 6px)',
+          ...(align === 'right' ? { right: 0 } : { left: 0 }),
           zIndex: 9999,
           background: 'var(--surface-primary)',
           border: '0.5px solid var(--border-default)',
@@ -676,8 +660,7 @@ export function DateRangePicker({
               </div>
             </div>
           </div>
-        </div>,
-        document.body
+        </div>
       )}
     </div>
   )
