@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import { Star, ThumbsUp, ThumbsDown, MessageSquare } from 'lucide-react'
+import { Star, ThumbsUp, MessageSquare } from 'lucide-react'
 import { Badge } from '../../components/ui/Badge/Badge'
 import { SearchBar } from '../../components/ui/SearchBar/SearchBar'
 import { Select } from '../../components/ui/Select/Select'

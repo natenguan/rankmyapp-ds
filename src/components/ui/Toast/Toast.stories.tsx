@@ -19,15 +19,6 @@ function StaticToast({ variant, title, description }: {
   title: string
   description?: string
 }) {
-  const variantConfig: Record<ToastVariant, { accent: string; icon: string }> = {
-    success: { accent: '#07C6C3', icon: '✓' },
-    error:   { accent: '#E24B4A', icon: '!' },
-    warning: { accent: '#FF5700', icon: '⚠' },
-    info:    { accent: '#1A88FF', icon: 'i' },
-  }
-  const { accent } = variantConfig[variant]
-
-  // Render via ToastContainer with static items
   return (
     <div style={{ position: 'relative', minHeight: '70px' }}>
       <div style={{ position: 'absolute', right: 0, top: 0 }}>

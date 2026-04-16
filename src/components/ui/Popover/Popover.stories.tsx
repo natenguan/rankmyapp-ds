@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Info, Filter, Calendar } from 'lucide-react'
+import { Info, Filter } from 'lucide-react'
 import { Popover } from './Popover'
 
 const meta: Meta<typeof Popover> = {
