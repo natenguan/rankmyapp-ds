@@ -466,7 +466,7 @@ export function DateRangePicker({
     : placeholder
 
   return (
-    <div ref={ref} style={{ position: 'relative', display: 'inline-block' }}>
+    <div ref={ref} style={{ position: 'relative', display: 'inline-block', alignSelf: 'flex-start' }}>
       {/* Trigger */}
       <button
         onClick={handleOpen}
