@@ -10,8 +10,17 @@ export type { InputProps } from './Input/Input'
 export { Toggle } from './Toggle/Toggle'
 export type { ToggleProps } from './Toggle/Toggle'
 
-export { Card, MetricCard, CardHeader, CardTitle, CardContent } from './Card/Card'
-export type { CardProps, MetricCardProps } from './Card/Card'
+export { Card, CardHeader, CardTitle, CardContent } from './Card/Card'
+export type { CardProps } from './Card/Card'
+
+export { MetricCard } from './MetricCard/MetricCard'
+export type { MetricCardProps } from './MetricCard/MetricCard'
+
+export { StatGroup } from './StatGroup/StatGroup'
+export type { StatGroupProps } from './StatGroup/StatGroup'
+
+export { AppItemCard } from './AppItemCard/AppItemCard'
+export type { AppItemCardProps } from './AppItemCard/AppItemCard'
 
 export { Alert } from './Alert/Alert'
 export type { AlertProps } from './Alert/Alert'

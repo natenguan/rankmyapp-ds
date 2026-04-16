@@ -23,49 +23,6 @@ function Card({ className, selected, children, ...props }: CardProps) {
   )
 }
 
-/* ── Metric Card ────────────────────────────────────────────── */
-
-export interface MetricCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  label: string
-  value: string | number
-  delta?: number
-  deltaLabel?: string
-}
-
-function MetricCard({ className, label, value, delta, deltaLabel, ...props }: MetricCardProps) {
-  const isPositive = delta !== undefined && delta > 0
-  const isNegative = delta !== undefined && delta < 0
-  const isNeutral = delta !== undefined && delta === 0
-
-  return (
-    <div
-      className={cn(
-        'surface-secondary rounded-md p-4 flex flex-col gap-2',
-        className
-      )}
-      {...props}
-    >
-      <span className="font-sans text-[12px] text-secondary-ds">{label}</span>
-      <span className="font-sans text-[24px] font-medium text-primary-ds leading-tight">{value}</span>
-      {delta !== undefined && (
-        <span
-          className={cn(
-            'font-sans text-[12px] font-medium',
-            isPositive && 'text-[#0F6E56]',
-            isNegative && 'text-[#A32D2D]',
-            isNeutral && 'text-secondary-ds'
-          )}
-        >
-          {isPositive && '▲ '}
-          {isNegative && '▼ '}
-          {isNeutral && '— '}
-          {deltaLabel ?? (delta > 0 ? `+${delta}` : delta)}
-        </span>
-      )}
-    </div>
-  )
-}
-
 /* ── Card sub-elements ──────────────────────────────────────── */
 
 function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
@@ -85,4 +42,4 @@ function CardContent({ className, ...props }: React.HTMLAttributes<HTMLDivElemen
   return <div className={cn('', className)} {...props} />
 }
 
-export { Card, MetricCard, CardHeader, CardTitle, CardContent }
+export { Card, CardHeader, CardTitle, CardContent }
