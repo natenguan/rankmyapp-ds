@@ -293,10 +293,19 @@ export function DateRangePicker({
     const d = value?.start ?? new Date()
     return new Date(d.getFullYear(), d.getMonth(), 1)
   })
+  const [rightViewMonth, setRightViewMonth] = useState(() => {
+    const s = value?.start ?? new Date()
+    const e = value?.end
+    // If end is a different month from start, show it on the right
+    if (e && (e.getFullYear() !== s.getFullYear() || e.getMonth() !== s.getMonth())) {
+      return new Date(e.getFullYear(), e.getMonth(), 1)
+    }
+    return new Date(s.getFullYear(), s.getMonth() + 1, 1)
+  })
   const [activePreset, setActivePreset] = useState<string | null>(null)
   const ref = useRef<HTMLDivElement>(null)
 
-  const rightMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1)
+  const rightMonth = rightViewMonth
 
   useEffect(() => {
     const h = (e: MouseEvent) => {
@@ -322,7 +331,14 @@ export function DateRangePicker({
       setHoverDate(null)
       setActivePreset(null)
       if (value?.start) {
-        setViewMonth(new Date(value.start.getFullYear(), value.start.getMonth(), 1))
+        const s = value.start
+        const e = value.end
+        setViewMonth(new Date(s.getFullYear(), s.getMonth(), 1))
+        if (e && (e.getFullYear() !== s.getFullYear() || e.getMonth() !== s.getMonth())) {
+          setRightViewMonth(new Date(e.getFullYear(), e.getMonth(), 1))
+        } else {
+          setRightViewMonth(new Date(s.getFullYear(), s.getMonth() + 1, 1))
+        }
       }
     }
     setOpen(v => !v)
@@ -352,7 +368,15 @@ export function DateRangePicker({
     setSelectingEnd(false)
     setHoverDate(null)
     setActivePreset(preset.label)
-    setViewMonth(new Date(range.start.getFullYear(), range.start.getMonth(), 1))
+    const startMonth = new Date(range.start.getFullYear(), range.start.getMonth(), 1)
+    const endMonth = new Date(range.end.getFullYear(), range.end.getMonth(), 1)
+    setViewMonth(startMonth)
+    // Right calendar shows end month, or start+1 if same month
+    if (endMonth.getTime() === startMonth.getTime()) {
+      setRightViewMonth(new Date(startMonth.getFullYear(), startMonth.getMonth() + 1, 1))
+    } else {
+      setRightViewMonth(endMonth)
+    }
   }
 
   const handleApply = () => {
@@ -508,7 +532,7 @@ export function DateRangePicker({
                 onDayHover={setHoverDate}
                 onMouseLeave={() => setHoverDate(null)}
                 showNext
-                onNext={() => setViewMonth(m => new Date(m.getFullYear(), m.getMonth() + 1, 1))}
+                onNext={() => setRightViewMonth(m => new Date(m.getFullYear(), m.getMonth() + 1, 1))}
               />
             </div>
 
