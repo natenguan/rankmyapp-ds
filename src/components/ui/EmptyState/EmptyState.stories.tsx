@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Search, Star, BarChart2, FileText, Inbox, Smartphone } from 'lucide-react'
+import { Search, Star, BarChart2, FileText, Inbox as InboxIcon, Smartphone } from 'lucide-react'
 import { EmptyState } from './EmptyState'
 
 const meta: Meta<typeof EmptyState> = {
@@ -97,7 +97,7 @@ export const Inbox: Story = {
   render: () => (
     <div style={{ border: '0.5px solid var(--border-default)', borderRadius: '12px', backgroundColor: 'var(--surface-primary)' }}>
       <EmptyState
-        icon={<Inbox size={22} />}
+        icon={<InboxIcon size={22} />}
         title="Tudo em dia"
         description="Não há notificações pendentes no momento."
         size="sm"
