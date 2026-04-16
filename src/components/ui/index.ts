@@ -104,3 +104,5 @@ export type { SheetProps, SheetSide } from './Sheet/Sheet'
 
 export { UserMenu } from './UserMenu/UserMenu'
 export type { UserMenuProps } from './UserMenu/UserMenu'
+
+export { AreaChart } from './Chart/AreaChart'
