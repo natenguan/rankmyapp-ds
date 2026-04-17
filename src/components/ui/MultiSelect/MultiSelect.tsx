@@ -61,7 +61,7 @@ export function MultiSelect({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }} ref={containerRef}>
       {label && (
-        <label style={{ fontSize: '13px', fontFamily: 'DM Sans', fontWeight: 500, color: 'var(--text-primary)' }}>
+        <label style={{ fontSize: '13px', fontFamily: 'DM Sans, sans-serif', fontWeight: 500, color: 'var(--text-primary)' }}>
           {label}
         </label>
       )}
@@ -90,7 +90,7 @@ export function MultiSelect({
           }}
         >
           {value.length === 0 ? (
-            <span style={{ fontSize: '14px', fontFamily: 'DM Sans', color: 'var(--text-secondary)' }}>
+            <span style={{ fontSize: '14px', fontFamily: 'DM Sans, sans-serif', color: 'var(--text-secondary)' }}>
               {placeholder}
             </span>
           ) : (
@@ -101,7 +101,7 @@ export function MultiSelect({
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: '4px',
                     height: '22px', padding: '0 6px 0 8px',
-                    fontSize: '12px', fontFamily: 'DM Sans', fontWeight: 500,
+                    fontSize: '12px', fontFamily: 'DM Sans, sans-serif', fontWeight: 500,
                     backgroundColor: 'rgba(26,136,255,0.10)',
                     color: '#1A88FF',
                     borderRadius: '4px',
@@ -117,7 +117,7 @@ export function MultiSelect({
                 </span>
               ))}
               {overflow > 0 && (
-                <span style={{ fontSize: '12px', fontFamily: 'DM Sans', color: 'var(--text-secondary)' }}>
+                <span style={{ fontSize: '12px', fontFamily: 'DM Sans, sans-serif', color: 'var(--text-secondary)' }}>
                   +{overflow}
                 </span>
               )}
@@ -148,7 +148,7 @@ export function MultiSelect({
                 onClick={e => e.stopPropagation()}
                 style={{
                   width: '100%', height: '30px', padding: '0 10px',
-                  fontSize: '13px', fontFamily: 'DM Sans',
+                  fontSize: '13px', fontFamily: 'DM Sans, sans-serif',
                   border: '1px solid var(--border-emphasis)', borderRadius: '6px',
                   outline: 'none', backgroundColor: 'var(--surface-secondary)', color: 'var(--text-primary)',
                   boxSizing: 'border-box',
@@ -157,7 +157,7 @@ export function MultiSelect({
             </div>
             <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
               {filtered.length === 0 ? (
-                <div style={{ padding: '12px', fontSize: '13px', fontFamily: 'DM Sans', color: 'var(--text-secondary)', textAlign: 'center' }}>
+                <div style={{ padding: '12px', fontSize: '13px', fontFamily: 'DM Sans, sans-serif', color: 'var(--text-secondary)', textAlign: 'center' }}>
                   Nenhuma opção
                 </div>
               ) : (
@@ -172,7 +172,7 @@ export function MultiSelect({
                       style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                         width: '100%', padding: '8px 12px',
-                        fontSize: '13px', fontFamily: 'DM Sans', fontWeight: isSelected ? 500 : 400,
+                        fontSize: '13px', fontFamily: 'DM Sans, sans-serif', fontWeight: isSelected ? 500 : 400,
                         color: opt.disabled ? 'var(--text-secondary)' : 'var(--text-primary)',
                         backgroundColor: isSelected ? 'var(--surface-secondary)' : 'transparent',
                         border: 'none', cursor: opt.disabled ? 'not-allowed' : 'pointer',
@@ -194,7 +194,7 @@ export function MultiSelect({
                   onClick={() => onChange?.([])}
                   style={{
                     width: '100%', height: '28px',
-                    fontSize: '12px', fontFamily: 'DM Sans', fontWeight: 500,
+                    fontSize: '12px', fontFamily: 'DM Sans, sans-serif', fontWeight: 500,
                     color: '#E24B4A', backgroundColor: 'transparent',
                     border: 'none', borderRadius: '6px', cursor: 'pointer',
                   }}
@@ -207,8 +207,8 @@ export function MultiSelect({
         )}
       </div>
 
-      {error && <span style={{ fontSize: '12px', fontFamily: 'DM Sans', color: '#E24B4A' }}>{error}</span>}
-      {hint && !error && <span style={{ fontSize: '12px', fontFamily: 'DM Sans', color: 'var(--text-secondary)' }}>{hint}</span>}
+      {error && <span style={{ fontSize: '12px', fontFamily: 'DM Sans, sans-serif', color: '#E24B4A' }}>{error}</span>}
+      {hint && !error && <span style={{ fontSize: '12px', fontFamily: 'DM Sans, sans-serif', color: 'var(--text-secondary)' }}>{hint}</span>}
     </div>
   )
 }

@@ -24,7 +24,7 @@ function AccountAvatar({ account, size = 28 }: { account: Account; size?: number
       width: size, height: size, borderRadius: '6px',
       background: bg,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontFamily: 'DM Sans, sans-serif', fontSize: size * 0.4,
+      fontFamily: 'DM Sans, sans-serif', fontSize: size <= 24 ? 10 : size <= 32 ? 12 : size <= 40 ? 14 : 16,
       fontWeight: 700, color: '#fff', flexShrink: 0,
     }}>
       {initials}
@@ -116,7 +116,7 @@ export function AccountSwitcher({
                   onClick={() => { onSwitch?.(account.id); setOpen(false) }}
                   style={{
                     display: 'flex', alignItems: 'center', gap: '10px',
-                    width: '100%', padding: '7px 8px', borderRadius: '6px',
+                    width: '100%', padding: '8px', borderRadius: '6px',
                     backgroundColor: isActive ? 'var(--surface-secondary)' : 'transparent',
                     border: 'none', cursor: 'pointer', textAlign: 'left',
                   }}

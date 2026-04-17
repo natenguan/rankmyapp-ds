@@ -140,8 +140,8 @@ export function RangeSlider({
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <span style={{ fontSize: '11px', fontFamily: 'DM Sans', color: 'var(--text-secondary)' }}>{formatValue(min)}</span>
-        <span style={{ fontSize: '11px', fontFamily: 'DM Sans', color: 'var(--text-secondary)' }}>{formatValue(max)}</span>
+        <span style={{ fontSize: '12px', fontFamily: 'DM Sans', color: 'var(--text-secondary)' }}>{formatValue(min)}</span>
+        <span style={{ fontSize: '12px', fontFamily: 'DM Sans', color: 'var(--text-secondary)' }}>{formatValue(max)}</span>
       </div>
 
       {hint && (

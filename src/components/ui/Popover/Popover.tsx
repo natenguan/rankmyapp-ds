@@ -66,7 +66,13 @@ export function Popover({ trigger, children, side = 'bottom', align = 'start', o
 
   return (
     <div ref={containerRef} style={{ position: 'relative', display: 'inline-flex' }}>
-      <div onClick={() => setOpen(p => !p)} style={{ display: 'inline-flex', cursor: 'pointer' }}>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => setOpen(p => !p)}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(p => !p) } }}
+        style={{ display: 'inline-flex', cursor: 'pointer' }}
+      >
         {trigger}
       </div>
       {open && (

@@ -26,7 +26,7 @@ function Kbd({ keys }: { keys: string[] }) {
         <kbd key={i} style={{
           display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
           minWidth: '20px', height: '20px', padding: '0 4px',
-          fontFamily: 'DM Mono, monospace', fontSize: '10px',
+          fontFamily: 'DM Mono, monospace', fontSize: '12px',
           color: 'var(--text-secondary)',
           background: 'var(--surface-secondary)',
           border: '0.5px solid var(--border-emphasis)',
@@ -179,7 +179,7 @@ export function Command({
                 {group && (
                   <div style={{
                     padding: '8px 10px 4px',
-                    fontFamily: 'DM Sans, sans-serif', fontSize: '10px',
+                    fontFamily: 'DM Sans, sans-serif', fontSize: '12px',
                     fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
                     color: 'var(--text-secondary)',
                   }}>
@@ -225,7 +225,7 @@ export function Command({
                         {item.description && (
                           <p style={{
                             margin: 0, fontFamily: 'DM Sans, sans-serif',
-                            fontSize: '11px', color: 'var(--text-secondary)',
+                            fontSize: '12px', color: 'var(--text-secondary)',
                             overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                           }}>
                             {item.description}
@@ -248,14 +248,14 @@ export function Command({
           display: 'flex', alignItems: 'center', gap: '16px',
           flexShrink: 0,
         }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'DM Sans, sans-serif', fontSize: '11px', color: 'var(--text-secondary)' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'DM Sans, sans-serif', fontSize: '12px', color: 'var(--text-secondary)' }}>
             <Kbd keys={['↑', '↓']} /> navegar
           </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'DM Sans, sans-serif', fontSize: '11px', color: 'var(--text-secondary)' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'DM Sans, sans-serif', fontSize: '12px', color: 'var(--text-secondary)' }}>
             <Kbd keys={['↵']} /> selecionar
           </span>
           {flatFiltered.length > 0 && (
-            <span style={{ marginLeft: 'auto', fontFamily: 'DM Sans, sans-serif', fontSize: '11px', color: 'var(--text-secondary)' }}>
+            <span style={{ marginLeft: 'auto', fontFamily: 'DM Sans, sans-serif', fontSize: '12px', color: 'var(--text-secondary)' }}>
               {flatFiltered.length} resultado{flatFiltered.length !== 1 ? 's' : ''}
             </span>
           )}

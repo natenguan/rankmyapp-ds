@@ -55,7 +55,7 @@ function DataTable<T extends Record<string, unknown>>({
                   <td
                     key={String(col.key)}
                     className={cn(
-                      'font-sans text-[14px] px-3 py-[10px] text-primary-ds',
+                      'font-sans text-[14px] px-3 py-[8px] text-primary-ds',
                       col.align === 'right' && 'text-right',
                       col.align === 'center' && 'text-center'
                     )}

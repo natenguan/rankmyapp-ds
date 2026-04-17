@@ -266,7 +266,7 @@ function MonthCalendar({
         {DAYS_PT.map((d, i) => (
           <div key={i} style={{
             textAlign: 'center',
-            fontFamily: 'DM Sans, sans-serif', fontSize: 10, fontWeight: 600,
+            fontFamily: 'DM Sans, sans-serif', fontSize: 12, fontWeight: 600,
             color: 'var(--text-secondary)', paddingBottom: 4,
           }}>
             {d}
@@ -535,7 +535,7 @@ export function DateRangePicker({
           }}>
             <p style={{
               margin: '0 0 8px 8px',
-              fontFamily: 'DM Sans, sans-serif', fontSize: 10, fontWeight: 600,
+              fontFamily: 'DM Sans, sans-serif', fontSize: 12, fontWeight: 600,
               letterSpacing: '0.07em', textTransform: 'uppercase',
               color: 'var(--text-secondary)',
             }}>

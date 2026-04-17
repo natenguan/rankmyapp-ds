@@ -160,6 +160,7 @@ export function ModalDialog({
         </div>
         <button
           onClick={onClose}
+          aria-label="Fechar"
           style={{
             padding: '4px',
             flexShrink: 0,

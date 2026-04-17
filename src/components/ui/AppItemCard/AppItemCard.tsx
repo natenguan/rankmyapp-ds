@@ -135,7 +135,7 @@ export function AppItemCard({
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
         <span style={{
           fontFamily: 'DM Sans, sans-serif',
-          fontSize: 15,
+          fontSize: 14,
           fontWeight: 500,
           color: 'var(--text-primary)',
           overflow: 'hidden',

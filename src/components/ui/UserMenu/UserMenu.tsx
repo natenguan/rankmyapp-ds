@@ -31,7 +31,7 @@ export function UserMenu({ name, email, avatarSrc, plan, onSettings, onBilling, 
       style={{
         display: 'flex', alignItems: 'center', gap: '10px',
         width: '100%', padding: '8px 12px',
-        fontSize: '13px', fontFamily: 'DM Sans', fontWeight: 400,
+        fontSize: '13px', fontFamily: 'DM Sans, sans-serif', fontWeight: 400,
         color: danger ? '#E24B4A' : 'var(--text-primary)',
         backgroundColor: 'transparent', border: 'none',
         cursor: 'pointer', textAlign: 'left', borderRadius: '6px',
@@ -61,11 +61,11 @@ export function UserMenu({ name, email, avatarSrc, plan, onSettings, onBilling, 
       >
         <Avatar name={name} src={avatarSrc} size="sm" />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '1px' }}>
-          <span style={{ fontSize: '13px', fontFamily: 'DM Sans', fontWeight: 500, color: 'var(--text-primary)', lineHeight: 1 }}>
+          <span style={{ fontSize: '13px', fontFamily: 'DM Sans, sans-serif', fontWeight: 500, color: 'var(--text-primary)', lineHeight: 1 }}>
             {name.split(' ')[0]}
           </span>
           {plan && (
-            <span style={{ fontSize: '11px', fontFamily: 'DM Sans', color: 'var(--text-secondary)', lineHeight: 1 }}>
+            <span style={{ fontSize: '11px', fontFamily: 'DM Sans, sans-serif', color: 'var(--text-secondary)', lineHeight: 1 }}>
               {plan}
             </span>
           )}
@@ -92,10 +92,10 @@ export function UserMenu({ name, email, avatarSrc, plan, onSettings, onBilling, 
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Avatar name={name} src={avatarSrc} size="md" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', minWidth: 0 }}>
-                <span style={{ fontSize: '13px', fontFamily: 'DM Sans', fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <span style={{ fontSize: '13px', fontFamily: 'DM Sans, sans-serif', fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {name}
                 </span>
-                <span style={{ fontSize: '12px', fontFamily: 'DM Sans', color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <span style={{ fontSize: '12px', fontFamily: 'DM Sans, sans-serif', color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {email}
                 </span>
               </div>

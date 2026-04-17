@@ -77,7 +77,8 @@ export function LoadingOverlay({ label = 'Carregando...' }: { label?: string }) 
         alignItems: 'center',
         justifyContent: 'center',
         gap: '12px',
-        backgroundColor: 'rgba(255,255,255,0.75)',
+        backgroundColor: 'var(--surface-primary)',
+        opacity: 0.9,
         backdropFilter: 'blur(2px)',
       }}
       aria-live="polite"

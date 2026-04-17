@@ -79,8 +79,8 @@ export function Sheet({
             flexShrink: 0,
           }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', paddingRight: '16px' }}>
-              {title && <h2 style={{ margin: 0, fontSize: '16px', fontFamily: 'Nunito', fontWeight: 600, color: 'var(--text-primary)' }}>{title}</h2>}
-              {description && <p style={{ margin: 0, fontSize: '13px', fontFamily: 'DM Sans', color: 'var(--text-secondary)' }}>{description}</p>}
+              {title && <h2 style={{ margin: 0, fontSize: '18px', fontFamily: 'Nunito, sans-serif', fontWeight: 600, color: 'var(--text-primary)' }}>{title}</h2>}
+              {description && <p style={{ margin: 0, fontSize: '13px', fontFamily: 'DM Sans, sans-serif', color: 'var(--text-secondary)' }}>{description}</p>}
             </div>
             <button
               onClick={onClose}

@@ -8,7 +8,7 @@ export interface EmptyStateProps {
 
 const paddingMap = { sm: '32px 24px', md: '48px 32px', lg: '64px 40px' }
 const iconSizeMap = { sm: 36, md: 48, lg: 56 }
-const titleSizeMap = { sm: '14px', md: '16px', lg: '18px' }
+const titleSizeMap = { sm: '14px', md: '18px', lg: '18px' }
 
 export function EmptyState({ icon, title, description, action, size = 'md' }: EmptyStateProps) {
   const iconPx = iconSizeMap[size]

@@ -1,4 +1,4 @@
-import { forwardRef } from 'react'
+import { forwardRef, useId } from 'react'
 import { cn } from '@/lib/utils'
 import { Search } from 'lucide-react'
 
@@ -9,13 +9,15 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type = 'text', label, hint, error, ...props }, ref) => {
+  ({ className, type = 'text', label, hint, error, id: idProp, ...props }, ref) => {
+    const generatedId = useId()
+    const id = idProp ?? generatedId
     const isSearch = type === 'search'
 
     return (
-      <div className="flex flex-col gap-[5px]">
+      <div className="flex flex-col gap-[4px]">
         {label && (
-          <label className="font-sans text-[13px] font-medium text-primary-ds">
+          <label htmlFor={id} className="font-sans text-[13px] font-medium text-primary-ds">
             {label}
           </label>
         )}
@@ -29,6 +31,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
           <input
             type={type}
+            id={id}
             ref={ref}
             className={cn(
               'h-9 w-full rounded-md border font-sans text-[14px] text-primary-ds bg-[var(--surface-primary)]',

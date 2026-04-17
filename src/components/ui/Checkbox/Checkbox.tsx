@@ -52,7 +52,7 @@ export function Checkbox({
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
       <label
         htmlFor={id}
         style={{
@@ -119,7 +119,7 @@ export function Checkbox({
             fontSize: '12px',
             fontFamily: 'DM Sans, sans-serif',
             color: '#E24B4A',
-            paddingLeft: '26px',
+            paddingLeft: '24px',
           }}
         >
           {error}

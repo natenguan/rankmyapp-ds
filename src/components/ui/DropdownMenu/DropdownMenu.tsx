@@ -34,9 +34,20 @@ function DropdownMenu({ trigger, items, align = 'left' }: DropdownMenuProps) {
   return (
     <div style={{ position: 'relative', display: 'inline-flex' }} ref={ref}>
       {/* Trigger */}
-      <span onClick={() => setOpen(v => !v)} style={{ cursor: 'pointer' }}>
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        style={{
+          background: 'none',
+          border: 'none',
+          padding: 0,
+          cursor: 'pointer',
+          display: 'inline-flex',
+          alignItems: 'center',
+        }}
+      >
         {trigger}
-      </span>
+      </button>
 
       {/* Menu */}
       {open && (

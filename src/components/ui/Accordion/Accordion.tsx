@@ -27,7 +27,7 @@ export function Accordion({ items, defaultOpen = [], multiple = false }: Accordi
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', borderRadius: '10px', border: '0.5px solid var(--border-default)', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', borderRadius: '12px', border: '0.5px solid var(--border-default)', overflow: 'hidden' }}>
       {items.map((item, i) => {
         const isOpen = open.includes(item.id)
         const isLast = i === items.length - 1
@@ -46,7 +46,7 @@ export function Accordion({ items, defaultOpen = [], multiple = false }: Accordi
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 width: '100%',
-                padding: '14px 16px',
+                padding: '12px 16px',
                 backgroundColor: isOpen ? 'var(--surface-secondary)' : 'var(--surface-primary)',
                 border: 'none',
                 borderBottom: isLast && !isOpen ? 'none' : '0.5px solid var(--border-default)',
@@ -56,7 +56,7 @@ export function Accordion({ items, defaultOpen = [], multiple = false }: Accordi
                 textAlign: 'left',
               }}
             >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <span style={{ fontSize: '14px', fontFamily: 'DM Sans, sans-serif', fontWeight: 500, color: 'var(--text-primary)' }}>
                   {item.title}
                 </span>

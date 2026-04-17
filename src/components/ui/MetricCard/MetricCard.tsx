@@ -53,7 +53,7 @@ export function MetricCard({
       ? delta > 0 ? 'positive' : delta < 0 ? 'negative' : 'neutral'
       : 'neutral'
     )
-  const valueFontSize = size === 'md' ? 24 : 18
+  const valueFontSize = size === 'md' ? 22 : 18
 
   return (
     <div style={{

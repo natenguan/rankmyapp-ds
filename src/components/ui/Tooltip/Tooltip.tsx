@@ -8,22 +8,26 @@ export interface TooltipProps {
   className?: string
 }
 
-const sideStyles: Record<NonNullable<TooltipProps['side']>, { tooltip: string; arrow: string }> = {
+const sideStyles: Record<NonNullable<TooltipProps['side']>, { tooltip: string; arrow: string; arrowStyle: React.CSSProperties }> = {
   top: {
     tooltip: 'bottom-full left-1/2 -translate-x-1/2 mb-2',
-    arrow: 'top-full left-1/2 -translate-x-1/2 border-t-[var(--surface-secondary)] border-t-[5px] border-x-transparent border-x-[5px] border-b-0',
+    arrow: 'top-full left-1/2 -translate-x-1/2',
+    arrowStyle: { borderTop: '5px solid var(--surface-secondary)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderBottom: 0 },
   },
   bottom: {
     tooltip: 'top-full left-1/2 -translate-x-1/2 mt-2',
-    arrow: 'bottom-full left-1/2 -translate-x-1/2 border-b-[var(--surface-secondary)] border-b-[5px] border-x-transparent border-x-[5px] border-t-0',
+    arrow: 'bottom-full left-1/2 -translate-x-1/2',
+    arrowStyle: { borderBottom: '5px solid var(--surface-secondary)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: 0 },
   },
   left: {
     tooltip: 'right-full top-1/2 -translate-y-1/2 mr-2',
-    arrow: 'left-full top-1/2 -translate-y-1/2 border-l-[var(--surface-secondary)] border-l-[5px] border-y-transparent border-y-[5px] border-r-0',
+    arrow: 'left-full top-1/2 -translate-y-1/2',
+    arrowStyle: { borderLeft: '5px solid var(--surface-secondary)', borderTop: '5px solid transparent', borderBottom: '5px solid transparent', borderRight: 0 },
   },
   right: {
     tooltip: 'left-full top-1/2 -translate-y-1/2 ml-2',
-    arrow: 'right-full top-1/2 -translate-y-1/2 border-r-[var(--surface-secondary)] border-r-[5px] border-y-transparent border-y-[5px] border-l-0',
+    arrow: 'right-full top-1/2 -translate-y-1/2',
+    arrowStyle: { borderRight: '5px solid var(--surface-secondary)', borderTop: '5px solid transparent', borderBottom: '5px solid transparent', borderLeft: 0 },
   },
 }
 
@@ -62,7 +66,7 @@ function Tooltip({ content, children, side = 'top', className }: TooltipProps) {
           role="tooltip"
         >
           {/* Arrow */}
-          <span className={cn('absolute w-0 h-0 border-solid', styles.arrow)} />
+          <span className={cn('absolute w-0 h-0 border-solid', styles.arrow)} style={styles.arrowStyle} />
 
           {/* Content */}
           <span

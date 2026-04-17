@@ -39,7 +39,7 @@ export function StatGroup({ children, columns = 4, title, loading = false }: Sta
       {title && (
         <span style={{
           fontFamily: 'DM Sans, sans-serif',
-          fontSize: 15,
+          fontSize: 14,
           fontWeight: 500,
           color: 'var(--text-primary)',
         }}>
