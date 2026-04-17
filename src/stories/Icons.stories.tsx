@@ -1,15 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState, useCallback } from 'react'
-import * as LucideIcons from 'lucide-react'
+import { icons, Search, Check } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
-/* ── Filter only icon components (PascalCase, function/class) ── */
-const allIcons = Object.entries(LucideIcons).filter(
-  ([name, value]) =>
-    typeof value === 'function' &&
-    /^[A-Z]/.test(name) &&
-    name !== 'createLucideIcon'
-) as [string, LucideIcon][]
+/* ── Icon list from lucide's native `icons` export ──────────── */
+const allIcons: [string, LucideIcon][] = Object.entries(icons) as [string, LucideIcon][]
 
 /* ── Meta ────────────────────────────────────────────────────── */
 const meta: Meta = {
@@ -20,17 +15,18 @@ const meta: Meta = {
 export default meta
 type Story = StoryObj
 
-/* ── Catalog ─────────────────────────────────────────────────── */
+/* ── Catalog component ───────────────────────────────────────── */
 function IconCatalog({ size, color }: { size: number; color: string }) {
   const [query, setQuery] = useState('')
   const [copied, setCopied] = useState<string | null>(null)
 
-  const filtered = query.trim()
-    ? allIcons.filter(([name]) => name.toLowerCase().includes(query.toLowerCase()))
-    : allIcons
+  const filtered = query.trim() === ''
+    ? allIcons
+    : allIcons.filter(([name]) => name.toLowerCase().includes(query.toLowerCase().trim()))
 
   const handleCopy = useCallback((name: string) => {
-    navigator.clipboard.writeText(`import { ${name} } from 'lucide-react'`)
+    const text = `import { ${name} } from 'lucide-react'`
+    navigator.clipboard?.writeText(text)
     setCopied(name)
     setTimeout(() => setCopied(null), 1500)
   }, [])
@@ -43,18 +39,18 @@ function IconCatalog({ size, color }: { size: number; color: string }) {
         <h1 style={{ fontSize: '22px', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
           Icons
         </h1>
-        <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px', marginBottom: '0' }}>
-          {allIcons.length} ícones disponíveis via{' '}
-          <code style={{ fontFamily: 'monospace', fontSize: '12px', backgroundColor: 'var(--surface-secondary)', padding: '2px 6px', borderRadius: '4px' }}>
+        <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px', marginBottom: 0 }}>
+          {allIcons.length} ícones via{' '}
+          <code style={{ fontSize: '12px', backgroundColor: 'var(--surface-secondary)', padding: '2px 6px', borderRadius: '4px' }}>
             lucide-react
           </code>
-          . Clique em qualquer ícone para copiar o import.
+          {' '}— clique para copiar o import.
         </p>
       </div>
 
       {/* Search */}
-      <div style={{ position: 'relative', maxWidth: '360px', marginBottom: '24px' }}>
-        <LucideIcons.Search
+      <div style={{ position: 'relative', maxWidth: '360px', marginBottom: '12px' }}>
+        <Search
           size={15}
           style={{
             position: 'absolute',
@@ -66,10 +62,10 @@ function IconCatalog({ size, color }: { size: number; color: string }) {
           }}
         />
         <input
-          type="search"
+          type="text"
           value={query}
           onChange={e => setQuery(e.target.value)}
-          placeholder="Buscar ícone..."
+          placeholder={`Buscar entre ${allIcons.length} ícones...`}
           style={{
             width: '100%',
             height: '36px',
@@ -87,11 +83,11 @@ function IconCatalog({ size, color }: { size: number; color: string }) {
         />
       </div>
 
-      {/* Count */}
-      <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '16px' }}>
+      {/* Result count */}
+      <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: 0, marginBottom: '16px' }}>
         {filtered.length === allIcons.length
-          ? `${allIcons.length} ícones`
-          : `${filtered.length} de ${allIcons.length} ícones`}
+          ? `Exibindo todos os ${allIcons.length} ícones`
+          : `${filtered.length} resultado${filtered.length !== 1 ? 's' : ''} para "${query}"`}
       </p>
 
       {/* Empty state */}
@@ -102,13 +98,7 @@ function IconCatalog({ size, color }: { size: number; color: string }) {
       )}
 
       {/* Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
-          gap: '8px',
-        }}
-      >
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))', gap: '8px' }}>
         {filtered.map(([name, Icon]) => (
           <button
             key={name}
@@ -123,37 +113,29 @@ function IconCatalog({ size, color }: { size: number; color: string }) {
               gap: '8px',
               padding: '12px 8px',
               borderRadius: '8px',
-              border: '1px solid',
-              borderColor: copied === name ? 'var(--color-primary)' : 'transparent',
+              border: `1px solid ${copied === name ? 'var(--color-primary)' : 'transparent'}`,
               backgroundColor: copied === name ? 'rgba(26,136,255,0.06)' : 'var(--surface-secondary)',
               cursor: 'pointer',
               transition: 'border-color 120ms, background-color 120ms',
               textAlign: 'center',
             }}
             onMouseEnter={e => {
-              if (copied !== name) {
-                ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border-emphasis)'
-              }
+              if (copied !== name) (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border-emphasis)'
             }}
             onMouseLeave={e => {
-              if (copied !== name) {
-                ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'transparent'
-              }
+              if (copied !== name) (e.currentTarget as HTMLButtonElement).style.borderColor = 'transparent'
             }}
           >
-            {copied === name ? (
-              <LucideIcons.Check size={size} color="var(--color-primary)" />
-            ) : (
-              <Icon size={size} color={color} />
-            )}
-            <span
-              style={{
-                fontSize: '11px',
-                color: copied === name ? 'var(--color-primary)' : 'var(--text-secondary)',
-                wordBreak: 'break-all',
-                lineHeight: 1.3,
-              }}
-            >
+            {copied === name
+              ? <Check size={size} color="var(--color-primary)" />
+              : <Icon size={size} color={color} />
+            }
+            <span style={{
+              fontSize: '11px',
+              color: copied === name ? 'var(--color-primary)' : 'var(--text-secondary)',
+              wordBreak: 'break-all',
+              lineHeight: 1.3,
+            }}>
               {copied === name ? 'Copiado!' : name}
             </span>
           </button>

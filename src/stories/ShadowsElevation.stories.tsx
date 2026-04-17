@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 
 const meta: Meta = {
-  title: 'Foundation/Shadows & Elevation',
+  title: 'Foundations/Shadows & Elevation',
   parameters: { layout: 'padded' },
 }
 
