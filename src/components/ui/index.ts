@@ -19,6 +19,9 @@ export type { MetricCardProps } from './MetricCard/MetricCard'
 export { StatGroup } from './StatGroup/StatGroup'
 export type { StatGroupProps } from './StatGroup/StatGroup'
 
+export { Timeline } from './Timeline/Timeline'
+export type { TimelineProps, TimelineEvent } from './Timeline/Timeline'
+
 export { AppItemCard } from './AppItemCard/AppItemCard'
 export type { AppItemCardProps } from './AppItemCard/AppItemCard'
 

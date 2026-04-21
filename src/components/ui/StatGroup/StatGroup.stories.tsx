@@ -7,7 +7,7 @@ const meta: Meta<typeof StatGroup> = {
   component: StatGroup,
   parameters: { layout: 'padded' },
   argTypes: {
-    columns: { control: 'select', options: [2, 3, 4] },
+    columns: { control: 'select', options: [2, 3, 4, 5] },
     title:   { control: 'text' },
     loading: { control: 'boolean' },
   },
@@ -75,6 +75,19 @@ export const MixedVariants: Story = {
       <MetricCard label="Dropping Keywords" value={15} delta="2 vs ontem" deltaType="negative" variant="dropping" />
       <MetricCard label="Stable Keywords" value={28} delta="sem variação" deltaType="neutral" variant="stable" />
       <MetricCard label="Total Keywords" value={60} delta="sem variação" deltaType="neutral" variant="default" />
+    </StatGroup>
+  ),
+}
+
+export const FiveColumns: Story = {
+  name: '5 Colunas (Overview KPIs)',
+  render: () => (
+    <StatGroup columns={5}>
+      <MetricCard label="Posição na categoria" value="#14" deltaLabel="estável" deltaType="neutral" />
+      <MetricCard label="Rating 7 dias" value="4,06" delta="▼ 0,69 vs histórico" deltaType="negative" variant="dropping" />
+      <MetricCard label="Keywords top 10" value={0} pending pendingLabel="Configurar keywords" pendingHref="/keywords" />
+      <MetricCard label="Reviews no período" value={254} deltaLabel="★ 4,06 média" deltaType="neutral" />
+      <MetricCard label="Concorrentes" value={0} pending pendingLabel="Adicionar" pendingHref="/settings" />
     </StatGroup>
   ),
 }

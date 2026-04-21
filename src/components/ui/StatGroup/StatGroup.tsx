@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 
 export interface StatGroupProps {
   children: React.ReactNode
-  columns?: 2 | 3 | 4
+  columns?: 2 | 3 | 4 | 5
   title?: string
   loading?: boolean
 }
@@ -12,6 +12,7 @@ const gridClass: Record<number, string> = {
   2: 'grid grid-cols-2 gap-[10px]',
   3: 'grid grid-cols-2 sm:grid-cols-3 gap-[10px]',
   4: 'grid grid-cols-2 lg:grid-cols-4 gap-[10px]',
+  5: 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-[10px]',
 }
 
 /**
@@ -25,7 +26,7 @@ const gridClass: Record<number, string> = {
  *   <MetricCard label="Total" value={60} deltaType="neutral" />
  * </StatGroup>
  */
-export function StatGroup({ children, columns = 4, title, loading = false }: StatGroupProps) {
+export function StatGroup({ children, columns = 4 as 2 | 3 | 4 | 5, title, loading = false }: StatGroupProps) {
   const enhancedChildren = loading
     ? React.Children.map(children, child =>
         React.isValidElement(child)

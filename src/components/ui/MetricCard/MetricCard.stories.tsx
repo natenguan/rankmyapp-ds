@@ -89,3 +89,23 @@ export const AllVariants: Story = {
     </div>
   ),
 }
+
+export const Pending: Story = {
+  args: {
+    label: 'Keywords top 10',
+    value: '—',
+    pending: true,
+    pendingLabel: 'Configurar keywords',
+    pendingHref: '/keywords',
+  },
+}
+
+export const PendingComparison: Story = {
+  name: 'Pending vs Configurado',
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
+      <MetricCard label="Keywords top 10" value={0} pending pendingLabel="Configurar keywords" pendingHref="/keywords" />
+      <MetricCard label="Keywords top 10" value={12} delta="▲ 2 vs período anterior" deltaType="positive" variant="growing" />
+    </div>
+  ),
+}

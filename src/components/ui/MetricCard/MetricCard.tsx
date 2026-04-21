@@ -1,4 +1,3 @@
-import React from 'react'
 import { Skeleton } from '../Skeleton/Skeleton'
 
 export interface MetricCardProps {
@@ -10,7 +9,10 @@ export interface MetricCardProps {
   variant?: 'default' | 'growing' | 'dropping' | 'stable'
   size?: 'sm' | 'md'
   loading?: boolean
-  className?: string
+  /** Exibe o card em estado "não configurado" — valor substituído por "—" e link de ação */
+  pending?: boolean
+  pendingLabel?: string
+  pendingHref?: string
 }
 
 const valueColors: Record<string, string> = {
@@ -41,7 +43,9 @@ export function MetricCard({
   variant = 'default',
   size = 'md',
   loading = false,
-  className,
+  pending = false,
+  pendingLabel,
+  pendingHref,
 }: MetricCardProps) {
   // Resolve display text: prefer deltaLabel, then stringify delta
   const deltaText = deltaLabel ?? (delta !== undefined ? String(delta) : undefined)
@@ -91,14 +95,33 @@ export function MetricCard({
             fontFamily: 'DM Sans, sans-serif',
             fontSize: valueFontSize,
             fontWeight: 500,
-            color: valueColors[variant],
+            color: pending ? 'var(--text-secondary)' : valueColors[variant],
             lineHeight: 1.2,
           }}>
-            {value}
+            {pending ? '—' : value}
           </span>
 
+          {/* Pending link */}
+          {pending && pendingLabel && (
+            <a
+              href={pendingHref ?? '#'}
+              style={{
+                marginTop: 4,
+                fontFamily: 'DM Sans, sans-serif',
+                fontSize: 12,
+                color: '#1A88FF',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 3,
+              }}
+            >
+              {pendingLabel} →
+            </a>
+          )}
+
           {/* Delta */}
-          {deltaText !== undefined && (
+          {!pending && deltaText !== undefined && (
             <div style={{
               display: 'flex',
               alignItems: 'center',
